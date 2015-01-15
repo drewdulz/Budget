@@ -1,0 +1,67 @@
+/* CSS declarations go here */
+.summary-box {
+	margin-top: 20px;
+	margin-left: 10px;
+	margin-right: 10px; 
+}
+
+.top-bar {
+	background-color: #637b85;
+}
+
+.title {
+	text-align: center;
+	color: white;
+}
+
+.summary-box-top {
+	background-color: #d0dde3; 
+}
+
+.summary-box-title {
+	color: #637b85;
+	font-size: 20pt;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.summary-box-content {
+	height: 300px;
+	background-color: #efefef; 
+}
+
+.table-section {
+	margin-top: 30px;
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+.date-col {
+	width: 15%;
+}
+
+.store-col {
+	width: 20%;
+}
+
+.desc-col {
+	width: 30%;
+}
+
+.amount-col {
+	width: 10%;
+}
+
+.category-col {
+	width: 23%;
+}
+
+
+th {
+	text-align: center !important;
+}
+
+tr {
+	text-align: center;
+}

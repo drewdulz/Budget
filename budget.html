@@ -1,0 +1,113 @@
+<head>
+  <title>Budget</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div class="row top-bar">
+			<!-- this will be a template with the date and stuff -->
+			<h1 class="title">Drew's Budget</h1>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="summary-box">
+					<div class="summary-box-top"><div class="summary-box-title">This Week</div></div>
+					<div class="summary-box-content"></div>
+				</div>
+			</div>
+
+			<div class="col-sm-4">
+				<div class="summary-box">
+					<div class="summary-box-top"><div class="summary-box-title">This Month</div></div>
+					<div class="summary-box-content"></div>
+				</div>
+			</div>
+
+			<div class="col-sm-4">
+				<div class="summary-box">
+					<div class="summary-box-top"><div class="summary-box-title">Term to Date</div></div>
+					<div class="summary-box-content"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="table-section">
+			<table class="table table-hover table-responsive">
+				<thead>
+					<tr>
+						<th class="date-col">Date</th>
+						<th class="store-col">Store</th>
+						<th class="desc-col">Description</th>
+						<th class="amount-col">Amount</th>
+						<th class="category-col">Category</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="input-row">
+						{{> expenseInput}}
+					</tr> 
+
+					{{#each expenses}}
+				        {{> expense}}
+				    {{/each}}
+			    </tbody>
+
+
+			</table>
+		</div>
+	</div>
+
+
+</body>
+
+
+
+<template name="expense">
+	<tr>
+		<td>{{date}}</td>
+		<td>{{store}}</td>
+		<td>{{description}}</td>
+		<td>${{amount}}</td>
+		<td>{{category}}</td>
+	</tr>
+
+</template>
+
+<template name="expenseInput">
+    <td colspan="5"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Expense</td>
+</template>
+
+<!-- <form class="form-inline">
+    			<div class="form-group date-col">
+					<input type='text' class="form-control" id='datetimepicker6' style="width:100%;">
+				</div>
+				<div class="form-group store-col">
+					<input type="text" class="form-control" style="width:100%;">
+				</div>
+				<div class="form-group desc-col">
+					<input type="text" class="form-control" style="width:100%;">
+				</div>
+				<div class="form-group amount-col">
+					<input type="text" class="form-control" style="width:100%;">
+				</div>
+				<div class="form-group category-col">
+					<input type="text" class="form-control" style="width:100%;">
+				</div>
+    		</form> -->
+
+
+
+
