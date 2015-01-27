@@ -1,5 +1,5 @@
 <head>
-  <title>Budget</title>
+  <title>Test</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <!-- Latest compiled and minified CSS -->
@@ -7,39 +7,17 @@
 
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+  
+  <!-- Badass google font -->
+  <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
 
 
 </head>
 
 <body>
 	<div class="container-fluid">
-		<div class="row top-bar">
-			<!-- this will be a template with the date and stuff -->
-			<h1 class="title">Drew's Budget</h1>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-4">
-				<div class="summary-box">
-					<div class="summary-box-top"><div class="summary-box-title">This Week</div></div>
-					<div class="summary-box-content"></div>
-				</div>
-			</div>
-
-			<div class="col-sm-4">
-				<div class="summary-box">
-					<div class="summary-box-top"><div class="summary-box-title">This Month</div></div>
-					<div class="summary-box-content"></div>
-				</div>
-			</div>
-
-			<div class="col-sm-4">
-				<div class="summary-box">
-					<div class="summary-box-top"><div class="summary-box-title">Term to Date</div></div>
-					<div class="summary-box-content"></div>
-				</div>
-			</div>
-		</div>
+    
+    {{> budgetSummary}}
 
 		<div class="table-section">
 			<table class="table table-hover table-responsive">
@@ -84,7 +62,7 @@
 
 <template name="expenseInput">
 	<tr>
-		<td><input type='text' class="form-control" id='datetimepicker6' placeholder="Date"></td>
+		<td><input type='text' class="form-control" id='datetimepicker6' placeholder="Date" value="{{defaultDate}}"></td>
 		<td><input type='text' class="form-control" id='store' placeholder="Store"></td>
 		<td><input type='text' class="form-control" id='description' placeholder="Description"></td>
 		<td><div class="input-group"><div class="input-group-addon">$</div><input type="text" class="form-control" id="amount" placeholder="Amount"></div></td>
@@ -93,6 +71,73 @@
 	</tr>
 
 </template>
+
+<template name="dateRangeSelect">
+      <p class="button-title">Show me transactions from: </p>
+      <div class="btn-group date-range-buttons" data-toggle="buttons">
+        <label class="btn btn-default active thisWeek">
+          <input type="radio" name="options" id="thisWeek" autocomplete="off" checked> This Week
+        </label>
+        <label class="btn btn-default thisMonth">
+          <input type="radio" name="options" id="thisMonth" autocomplete="off"> This Month
+        </label>
+        <label class="btn btn-default allTime">
+          <input type="radio" name="options" id="allTime" autocomplete="off"> All Time
+        </label>
+      </div>
+</template>
+
+<!-- Add this part to a more general controller for all of the expense table -->
+<template name="mobileExpenses">
+  {{#if isMobile}}
+    <ul class="list-group">
+      <li class="list-group-item">Cras justo odio</li>
+      <li class="list-group-item">Dapibus ac facilisis in</li>
+      <li class="list-group-item">Morbi leo risus</li>
+      <li class="list-group-item">Porta ac consectetur ac</li>
+      <li class="list-group-item">Vestibulum at eros</li>
+    </ul>
+  {{/if}}
+</template>
+
+<template name="budgetSummary">
+  <div class="row top-bar">
+    <!-- this will be a template with the date and stuff -->
+      <div class="col-md-1 col-md-offset-3 center"><button class="btn btn-default top-bar-button" type="submit">Previous {{buttonText}}</button></div>
+      <div class="col-md-4"><h1 class="title">Test</h1></div>
+      <div class="col-md-1 center"><button class="btn btn-default top-bar-button" type="submit">Next {{buttonText}}</button></div>
+      <div class="col-md-3 center">{{> dateRangeSelect}}</div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="summary-box">
+        <div class="summary-box-top"><div class="summary-box-title">This Week</div></div>
+        <p>Spending: {{weekSpending}}</p>
+        <p>Food: {{weekFood}}</p>
+        <div class="summary-box-content"></div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="summary-box">
+        <div class="summary-box-top"><div class="summary-box-title">This Month</div></div>
+        <div class="summary-box-content"></div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="summary-box">
+        <div class="summary-box-top"><div class="summary-box-title">Term to Date</div></div>
+        <div class="summary-box-content"></div>
+      </div>
+    </div>
+  </div>
+  
+  
+</template>
+  
+
 
 
 
