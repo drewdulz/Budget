@@ -1,7 +1,7 @@
 # Budget
 A personal budget solution built in meteor.
 Avaliable at:
-www.drewbudget.meteor.com
+drewbudget.meteor.com
 
 ## Why?
 I was not happy with the current solutions for keeping track of expenses. Pen and paper, or even spreadsheets were to time consuming.
