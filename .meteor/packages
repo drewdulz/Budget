@@ -7,5 +7,8 @@
 meteor-platform
 autopublish
 insecure
-tsega:bootstrap3-datetimepicker
 momentjs:moment
+tsega:bootstrap3-datetimepicker
+mizzao:bootstrap-3
+natestrauser:font-awesome
+chart:chart

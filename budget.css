@@ -1,6 +1,6 @@
 /* CSS declarations go here */
 body {
-  font-family: 'Abel', sans-serif;
+  font-family: 'Abel', sans-serif !important;
 }
 
 .summary-box {
@@ -14,12 +14,14 @@ body {
 }
 
 .top-bar-button {
-  margin-top: 25px;;
+  margin-top: 20px;
 }
 
 .title {
 	text-align: center;
 	color: white;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .button-title {
@@ -34,19 +36,36 @@ body {
 
 .summary-box-title {
 	color: #637b85;
-	font-size: 20pt;
+	font-size: 16pt;
 	text-align: center;
-	padding-top: 10px;
-	padding-bottom: 10px;
+	padding-top: 5px;
+	padding-bottom: 0px;
+}
+
+.summary-box-subtitle {
+  color: #637b85;
+	font-size: 11pt;
+	text-align: center;
+/* 	padding-top: 10px; */
+	padding-bottom: 5px;
 }
 
 .summary-box-content {
-	height: 300px;
+  text-align: center;
+	height: auto;
 	background-color: #efefef; 
+  padding-top: 15px;
+  padding-bottom: 3px;
 }
 
 .date-range-buttons {
+  margin-bottom: 10px;
+}
 
+.chart {
+/*   margin-top: 15px; */
+  width: 50% !important;
+  height: auto !important;
 }
 
 .table-section {
