@@ -194,12 +194,12 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
 				amount: amount,
 				category: category
 		  });
-			// Clear all the input
-			$('input').val('');
+			// Clear all the inputs except the date.
+			$('.clear').val('');
+      // setDefaultDate();
       // var expense = [{date: date, amount: amount, category: category}];      
       // console.log("Adding new expense: " + expense);
-      updateGraphs();
-    
+      updateGraphs();    
 		},	
 	});
 
@@ -305,6 +305,7 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
       monthChart.segments[2].value = monthBudgetSpending + monthBudgetFood - monthTotal[0] - monthTotal[1];
       monthChart.update();
     }
+    
 
   };
   
@@ -336,12 +337,8 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
     Session.set("expenses", periodExpenses);
     Session.get("expenses");
 
-    //Set the default input date
-    if(periodExpenses[0] != null) {
-      Session.set("defaultDate", periodExpenses[0].date);
-    } else {
-      Session.set("defaultDate", thisPeriodStart.format("MMM D YYYY"));
-    }
+    //Update the defualt date.
+    setDefaultDate();
   };
   
   var setTitleDates = function() {
@@ -398,6 +395,17 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
     } else {
       thisPeriodStart = thisMonthStart;
       thisPeriodEnd = thisMonthEnd;    
+    }
+  }
+
+  var setDefaultDate = function() {
+    //Set the default input date
+    console.log(periodExpenses[0]);
+    // Session.set("defaultDate", "PENIS");
+    if(typeof periodExpenses[0] != 'undefined' || periodExpenses[0] != null) {
+      Session.set("defaultDate", periodExpenses[0].date);
+    } else {
+      Session.set("defaultDate", thisPeriodStart.format("MMM D YYYY"));
     }
   }
   
