@@ -57,7 +57,7 @@
 
 <template name="expenseInput">
 	<tr>
-		<td><input type='text' class="form-control" id='datetimepicker6' placeholder="Date" value="{{defaultDate}}"></td>
+		<td><input type='text' class="form-control center" id='datetimepicker6' placeholder="Date" value="{{defaultDate}}"></td>
 		<td><input type='text' class="form-control" id='store' placeholder="Store"></td>
 		<td><input type='text' class="form-control" id='description' placeholder="Description"></td>
 		<td><div class="input-group"><div class="input-group-addon">$</div><input type="text" class="form-control" id="amount" placeholder="Amount"></div></td>
@@ -83,7 +83,7 @@
 </template>
 
 <!-- Add this part to a more general controller for all of the expense table -->
-<template name="mobileExpenses">
+<!-- <template name="mobileExpenses">
   {{#if isMobile}}
     <ul class="list-group">
       <li class="list-group-item">Cras justo odio</li>
@@ -93,7 +93,7 @@
       <li class="list-group-item">Vestibulum at eros</li>
     </ul>
   {{/if}}
-</template>
+</template> -->
 
 <template name="budgetSummary">
   <div class="row top-bar">

@@ -27,6 +27,7 @@ var remainingColor = "#B4B4B4";
 var weekBudgetSpending = 50.00;
 var weekBudgetFood = 100.00;
 var monthBudgetSpending = (weekBudgetSpending / 7) * thisMonthEnd.diff(thisMonthStart, 'days');
+console.log(monthBudgetSpending);
 var monthBudgetFood = (weekBudgetFood / 7) * thisMonthEnd.diff(thisMonthStart, 'days');
 
 
@@ -62,8 +63,8 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
   
   Template.body.helpers({
 		expenses: function () {
-      updateGraphs(); //update the graphs anytime the page is loaded.
       filterDates();
+      // updateGraphs(); //update the graphs anytime the page is loaded.
       return periodExpenses;
 		},
 	});
@@ -86,6 +87,7 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
     monthChart = new Chart(ctx2).Doughnut(chartData, chartOptions);
 //     var legend2 = monthChart.generateLegend();
 //     $('#monthChart').append(legend2);
+    updateGraphs(); //update the graphs anytime the page is loaded.
 	}
   
   
@@ -155,9 +157,9 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
   // Set the date input value to a default
   Template.expenseInput.helpers({
     // Add this in later to setup the deafult date
-//     defaultDate: function () {
-//       return "Today";
-//     }
+    defaultDate: function() {
+      return Session.get("defaultDate");
+    },
     
   });
   
@@ -166,7 +168,7 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
   Template.expenseInput.events({
 		"click .add-expense": function () {
 			console.log("Adding Expense");
-			var date = document.getElementById('datetimepicker6').value;
+			var date = new Date(document.getElementById('datetimepicker6').value);
 			var store = document.getElementById('store').value;
 			var desc = document.getElementById('description').value;
 			var amount = document.getElementById('amount').value;
@@ -181,8 +183,8 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
 		  });
 			// Clear all the input
 			$('input').val('');
-      var expense = [{date: date, amount: amount, category: category}];      
-      console.log("Adding new expense: " + expense);
+      // var expense = [{date: date, amount: amount, category: category}];      
+      // console.log("Adding new expense: " + expense);
       updateGraphs();
     
 		},	
@@ -228,7 +230,8 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
     monthTotal = [0.00, 0.00];
     allTimeTotal = [0.00, 0.000];
     weekChange = monthChange = false;
-    var expenses = Expenses.find();
+    var expenses = Expenses.find({}, {sort: {date: -1}})
+    // console.log(expenses.fetch());
     
     // Calculate the totals for the graph
     expenses.forEach(function(expense) {
@@ -272,7 +275,7 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
     
     //Update the Charts
     if(weekChange) {
-      if((weekTotal[0] + weekTotal[1]) > (weekBudgetSpending + weekFoodBudget)) {
+      if((weekTotal[0] + weekTotal[1]) > (weekBudgetSpending + weekBudgetFood)) {
         //Overbudget, do something to show it.
       }
       weekChart.segments[0].value = weekTotal[0];
@@ -281,7 +284,7 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
       weekChart.update();
     }
     if (monthChange) {
-      if((monthTotal[0] + monthTotal[1]) > (monthBudgetSpending + monthFoodBudget)) {
+      if((monthTotal[0] + monthTotal[1]) > (monthBudgetSpending + monthBudgetFood)) {
         //Overbudget, do something to show it.
       }
       monthChart.segments[0].value = monthTotal[0];
@@ -301,19 +304,27 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
   };
   
   var filterDates = function() {
+    console.log("getting the expenses in the active period");
     // Get the expenses
-    var expenses = Expenses.find({});
+    var expenses = Expenses.find({}, {sort: {date: -1}})
+    //TODO: this ^ can be made more efficinent now that the dates are sorted. Shouldn't have to iterate through them all. Can stop after the last one that is true.
     
-    // Push all of the expenses fom the active week into an array
+    // Push all of the expenses fom the active week into an array AND format the date
     periodExpenses = [];
     expenses.forEach(function(expense) {
       if(isBetween(expense.date, thisPeriodStart, thisPeriodEnd)) {
+        //Format the date first
+        expense.date = moment(expense.date).format("MMM Do YYYY");
+
         periodExpenses.push(expense);
       }
       
     });
     Session.set("expenses", periodExpenses);
     Session.get("expenses");
+
+    //Set the default input date
+    Session.set("defaultDate", periodExpenses[0].date);
   };
   
   var setTitleDates = function() {
