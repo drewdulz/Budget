@@ -57,7 +57,18 @@
 
 <template name="expenseInput">
 	<tr>
-		<td><input type='text' class="form-control center" id='datetimepicker6' placeholder="Date" value="{{defaultDate}}"></td>
+		<td>
+      <div class="input-group">
+        <span class="input-group-btn" id="prev-day">
+          <button class="btn btn-default" type="button"><i class="fa fa-angle-left"></i></button>
+        </span>
+        <input type='text' class="form-control center" id='datetimepicker6' placeholder="Date" value="{{defaultDate}}">
+        <span class="input-group-btn" id="next-day">
+          <button class="btn btn-default" type="button"><i class="fa fa-angle-right"></i></button>
+        </span>
+      </div>
+      
+    </td>
 		<td><input type='text' class="form-control" id='store' placeholder="Store"></td>
 		<td><input type='text' class="form-control" id='description' placeholder="Description"></td>
 		<td><div class="input-group"><div class="input-group-addon">$</div><input type="text" class="form-control" id="amount" placeholder="Amount"></div></td>
@@ -100,7 +111,7 @@
     <!-- this will be a template with the date and stuff -->
       <div class="col-md-1 col-md-offset-3 center"><button class="btn btn-default top-bar-button" id="previous"><i class="fa fa-angle-left"></i> Prev {{mode}}</button></div>
     <div class="col-md-4"><h1 class="title">Drew's Expenses For:</h1><h4 class="title">{{periodStart}} - {{periodEnd}}</h4></div>
-      <div class="col-md-1 center"><button class="btn btn-default top-bar-button" id="next">Next {{mode}}<i class="fa fa-angle-right"></i></button></div>
+      <div class="col-md-1 center"><button class="btn btn-default top-bar-button" id="next">Next {{mode}} <i class="fa fa-angle-right"></i></button></div>
       <div class="col-md-3 center">{{> dateRangeSelect}}</div>
   </div>
 

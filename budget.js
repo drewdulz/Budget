@@ -12,6 +12,7 @@ var mode = "week";
 var weekChange; var monthChange;
 
 var thisPeriodStart = thisWeekStart;
+console.log(thisPeriodStart);
 var thisPeriodEnd = thisWeekEnd;
 var periodExpenses = [];
 
@@ -71,7 +72,7 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
   
   Template.budgetSummary.rendered = function() {
     //Initialize title
-    console.log(thisPeriodStart);
+    // console.log(thisPeriodStart);
     setTitleDates();
     Session.set("mode", mode);   
     
@@ -156,7 +157,6 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
   
   // Set the date input value to a default
   Template.expenseInput.helpers({
-    // Add this in later to setup the deafult date
     defaultDate: function() {
       return Session.get("defaultDate");
     },
@@ -166,8 +166,21 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
   
   
   Template.expenseInput.events({
-		"click .add-expense": function () {
+		"click #prev-day": function () {
+      var currentDefault = Session.get("defaultDate");
+      currentDefault = moment(currentDefault, "MMM D YYYY").subtract(1,'day').format("MMM D YYYY");
+      Session.set("defaultDate", currentDefault);
+    },
+
+    "click #next-day": function () {
+      var currentDefault = Session.get("defaultDate");
+      currentDefault = moment(currentDefault, "MMM D YYYY").add(1,'day').format("MMM D YYYY");
+      Session.set("defaultDate", currentDefault);
+    },
+
+    "click .add-expense": function () {
 			console.log("Adding Expense");
+      console.log(document.getElementById('datetimepicker6').value);
 			var date = new Date(document.getElementById('datetimepicker6').value);
 			var store = document.getElementById('store').value;
 			var desc = document.getElementById('description').value;
@@ -314,7 +327,7 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
     expenses.forEach(function(expense) {
       if(isBetween(expense.date, thisPeriodStart, thisPeriodEnd)) {
         //Format the date first
-        expense.date = moment(expense.date).format("MMM Do YYYY");
+        expense.date = moment(expense.date).format("MMM D YYYY");
 
         periodExpenses.push(expense);
       }
@@ -324,26 +337,30 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
     Session.get("expenses");
 
     //Set the default input date
-    Session.set("defaultDate", periodExpenses[0].date);
+    if(periodExpenses[0] != null) {
+      Session.set("defaultDate", periodExpenses[0].date);
+    } else {
+      Session.set("defaultDate", thisPeriodStart.format("MMM D YYYY"));
+    }
   };
   
   var setTitleDates = function() {
     //If the time period is a month, then we need to add a day to make it display properly.
     if( thisPeriodEnd.diff(thisPeriodStart, 'days') > 7 && thisPeriodEnd.diff(thisPeriodStart, 'days') < 33) {
       console.log("Month");
-      Session.set("periodStart", moment(thisPeriodStart).add(1, 'day').format("MMM Do YYYY"));
-      Session.set("periodEnd", moment(thisPeriodEnd).format("MMM Do YYYY"));
+      Session.set("periodStart", moment(thisPeriodStart).add(1, 'day').format("MMM D YYYY"));
+      Session.set("periodEnd", moment(thisPeriodEnd).format("MMM D YYYY"));
     } else if(mode == "allTime") {
       Session.set("periodStart", "Beginning of Time");
       Session.set("periodEnd", "End of Time");
     } else {
-      Session.set("periodStart", moment(thisPeriodStart).format("MMM Do YYYY"));
-      Session.set("periodEnd", moment(thisPeriodEnd).subtract(1, 'day').format("MMM Do YYYY"));
+      Session.set("periodStart", moment(thisPeriodStart).format("MMM D YYYY"));
+      Session.set("periodEnd", moment(thisPeriodEnd).subtract(1, 'day').format("MMM D YYYY"));
     }
-    Session.set("thisWeekStart", moment(thisWeekStart).format("MMM Do YYYY"));
-    Session.set("thisWeekEnd", moment(thisWeekEnd).subtract(1, 'day').format("MMM Do YYYY"));
-    Session.set("thisMonthStart", moment(thisMonthStart).add(1, 'day').format("MMM Do YYYY"));
-    Session.set("thisMonthEnd", moment(thisMonthEnd).format("MMM Do YYYY"));
+    Session.set("thisWeekStart", moment(thisWeekStart).format("MMM D YYYY"));
+    Session.set("thisWeekEnd", moment(thisWeekEnd).subtract(1, 'day').format("MMM D YYYY"));
+    Session.set("thisMonthStart", moment(thisMonthStart).add(1, 'day').format("MMM D YYYY"));
+    Session.set("thisMonthEnd", moment(thisMonthEnd).format("MMM D YYYY"));
   };
   
   var changePeriod = function(direction) {
