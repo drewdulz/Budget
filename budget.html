@@ -71,7 +71,7 @@
     </td>
 		<td><input type='text' class="form-control clear" id='store' placeholder="Store"></td>
 		<td><input type='text' class="form-control clear" id='description' placeholder="Description"></td>
-		<td><div class="input-group"><div class="input-group-addon clear">$</div><input type="text" class="form-control" id="amount" placeholder="Amount"></div></td>
+		<td><div class="input-group"><div class="input-group-addon">$</div><input type="text" class="form-control clear" id="amount" placeholder="Amount"></div></td>
 		<td><select class="form-control" id="category"><option>Spending</option><option>Food</option></select></td>
 		<td><button type="button" class="btn btn-success add-expense">Submit</button></td>
 	</tr>
@@ -117,13 +117,14 @@
 
   <div class="row">
     <div class="col-sm-4">
-      <div class="summary-box">
+      <div class="summary-box active" id="weekBox">
         <div class="summary-box-top">
           <div class="summary-box-title">Weekly Expenses For:</div>
           <div class="summary-box-subtitle">{{thisWeekStart}} - {{thisWeekEnd}}</div>
         </div>
         <div class="summary-box-content">
           <canvas id="weekChart" class="chart" width="100%" height="100%"></canvas>
+          <div class="warning week-warning"><i class="fa fa-exclamation-triangle"></i></div>
           <p>Spending: ${{weekSpending}}</p>
           <p>Food: ${{weekFood}}</p>
           
@@ -132,7 +133,7 @@
     </div>
 
     <div class="col-sm-4">
-      <div class="summary-box">
+      <div class="summary-box" id="monthBox">
         <div class="summary-box-top">
           <div class="summary-box-title">Monthly Expenses For:</div>
           <div class="summary-box-subtitle">{{thisMonthStart}} - {{thisMonthEnd}}</div>
@@ -146,7 +147,7 @@
     </div>
 
     <div class="col-sm-4">
-      <div class="summary-box">
+      <div class="summary-box" id="allTimeBox">
         <div class="summary-box-top"><div class="summary-box-title">All-Time Spending</div></div>
         <div class="summary-box-content">
           <p>Spending: {{allTimeSpending}}</p>

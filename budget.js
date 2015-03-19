@@ -3,7 +3,7 @@ var weekTotal = [0.00, 0.00];
 var monthTotal = [0.00, 0.00];
 var allTimeTotal = [0.00, 0.00];
 var thisWeekStart = moment().day(0).hour(0).minute(0).second(0); //Should be one day before we want the dates to display
-var thisWeekEnd = moment().day(7).hour(0).minute(0).second(0);
+var thisWeekEnd = moment().day(6).hour(0).minute(0).second(0);
 var thisMonthStart = moment().date(31).hour(0).minute(0).second(0).subtract(1, 'month'); //Should be one day before we want the dates to display
 var thisMonthEnd = moment().date(31).hour(0).minute(0).second(0);
 var allTimeStart = moment("2000-01-01"); //Should be one day before we want the dates to display
@@ -13,6 +13,7 @@ var weekChange; var monthChange;
 
 var thisPeriodStart = thisWeekStart;
 console.log(thisPeriodStart);
+console.log(thisPeriodEnd);
 var thisPeriodEnd = thisWeekEnd;
 var periodExpenses = [];
 
@@ -151,7 +152,7 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
 	Template.expenseInput.rendered = function() {
 		$('#datetimepicker6').datetimepicker({
       format: 'MMM D YYYY',
-      pickTime: false
+      pickTime: false,
     });
 	}
   
@@ -196,9 +197,7 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
 		  });
 			// Clear all the inputs except the date.
 			$('.clear').val('');
-      // setDefaultDate();
-      // var expense = [{date: date, amount: amount, category: category}];      
-      // console.log("Adding new expense: " + expense);
+
       updateGraphs();    
 		},	
 	});
@@ -209,6 +208,9 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
       Session.set("mode", mode);
 			thisPeriodStart = thisWeekStart;
 			thisPeriodEnd = thisWeekEnd;
+      //Show this section as active
+      $(".summary-box").removeClass("active");
+      $("#weekBox").addClass("active");
       setTitleDates();
 			filterDates();
 		},
@@ -217,6 +219,10 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
       Session.set("mode", mode);
 			thisPeriodStart = thisMonthStart;
 			thisPeriodEnd = thisMonthEnd;
+      //Show this section as active
+      $(".summary-box").removeClass("active");
+      $("#monthBox").addClass("active");
+
       setTitleDates();
 			filterDates();
 		},	
@@ -225,6 +231,9 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
       Session.set("mode", mode);
 			thisPeriodStart = allTimeStart;
 			thisPeriodEnd = allTimeEnd;
+      //Show this section as active
+      $(".summary-box").removeClass("active");
+      $("#allTimeBox").addClass("active");
       setTitleDates();
 			filterDates();
 		},		
@@ -248,6 +257,7 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
     
     // Calculate the totals for the graph
     expenses.forEach(function(expense) {
+      console.log(thisWeekEnd);
       if(isBetween(expense.date, thisWeekStart, thisWeekEnd)) {
         weekChange = true;
         if(expense.category == "Spending") {
@@ -290,6 +300,8 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
     if(weekChange) {
       if((weekTotal[0] + weekTotal[1]) > (weekBudgetSpending + weekBudgetFood)) {
         //Overbudget, do something to show it.
+        overBudget();
+
       }
       weekChart.segments[0].value = weekTotal[0];
       weekChart.segments[1].value = weekTotal[1];
@@ -352,10 +364,10 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
       Session.set("periodEnd", "End of Time");
     } else {
       Session.set("periodStart", moment(thisPeriodStart).format("MMM D YYYY"));
-      Session.set("periodEnd", moment(thisPeriodEnd).subtract(1, 'day').format("MMM D YYYY"));
+      Session.set("periodEnd", moment(thisPeriodEnd).format("MMM D YYYY"));
     }
     Session.set("thisWeekStart", moment(thisWeekStart).format("MMM D YYYY"));
-    Session.set("thisWeekEnd", moment(thisWeekEnd).subtract(1, 'day').format("MMM D YYYY"));
+    Session.set("thisWeekEnd", moment(thisWeekEnd).format("MMM D YYYY"));
     Session.set("thisMonthStart", moment(thisMonthStart).add(1, 'day').format("MMM D YYYY"));
     Session.set("thisMonthEnd", moment(thisMonthEnd).format("MMM D YYYY"));
   };
@@ -407,6 +419,11 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
     } else {
       Session.set("defaultDate", thisPeriodStart.format("MMM D YYYY"));
     }
+  }
+
+  var overBudget = function() {
+    // $('.warning').css('display', 'inline-block');
+    // $('.chart').css('display', 'none');
   }
   
 
