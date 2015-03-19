@@ -105,6 +105,20 @@ body {
 
 .delete-button {
 	cursor: pointer;
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  line-height: 22px;
+  margin-left: 30%;
+  font-size: 1.3em;
+  font-weight: bold;
+  background-color: rgb(217,92,92);
+  color: white;
+  text-align: center;
+}
+
+.delete-button:hover {
+	background-color: #dc6868;
 }
 
 .warning {
