@@ -2,8 +2,8 @@ Expenses = new Mongo.Collection("expenses");
 var weekTotal = [0.00, 0.00];
 var monthTotal = [0.00, 0.00];
 var allTimeTotal = [0.00, 0.00];
-var thisWeekStart = moment().day(0).hour(0).minute(0).second(0); //Should be one day before we want the dates to display
-var thisWeekEnd = moment().day(7).hour(0).minute(0).second(0);
+var thisWeekStart = moment().day(0).hour(0).minute(0).second(0).subtract(1, 'day'); //Should be one day before we want the dates to display
+var thisWeekEnd = moment().day(6).hour(0).minute(0).second(0);
 var thisMonthStart = moment().date(31).hour(0).minute(0).second(0).subtract(1, 'month'); //Should be one day before we want the dates to display
 var thisMonthEnd = moment().date(31).hour(0).minute(0).second(0);
 var allTimeStart = moment("2000-01-01"); //Should be one day before we want the dates to display
@@ -385,15 +385,18 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
   
   var setTitleDates = function() {
     //If the time period is a month, then we need to add a day to make it display properly.
+    // Month
     if( thisPeriodEnd.diff(thisPeriodStart, 'days') > 7 && thisPeriodEnd.diff(thisPeriodStart, 'days') < 33) {
       Session.set("periodStart", moment(thisPeriodStart).add(1, 'day').format("MMM D YYYY"));
       Session.set("periodEnd", moment(thisPeriodEnd).format("MMM D YYYY"));
+    // All Time 
     } else if(mode == "allTime") {
       Session.set("periodStart", "Beginning of Time");
       Session.set("periodEnd", "End of Time");
+    // Week
     } else {
-      Session.set("periodStart", moment(thisPeriodStart).format("MMM D YYYY"));
-      Session.set("periodEnd", moment(thisPeriodEnd).subtract(1, 'day').format("MMM D YYYY"));
+      Session.set("periodStart", moment(thisPeriodStart).add(1, 'day').format("MMM D YYYY"));
+      Session.set("periodEnd", moment(thisPeriodEnd).format("MMM D YYYY"));
     }
     Session.set("thisWeekStart", moment(thisWeekStart).format("MMM D YYYY"));
     Session.set("thisWeekEnd", moment(thisWeekEnd).subtract(1, 'day').format("MMM D YYYY"));
