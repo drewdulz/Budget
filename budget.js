@@ -208,6 +208,9 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
       Session.set("mode", mode);
 			thisPeriodStart = thisWeekStart;
 			thisPeriodEnd = thisWeekEnd;
+      //Show this section as active
+      $(".summary-box").removeClass("active");
+      $("#weekBox").addClass("active");
       setTitleDates();
 			filterDates();
 		},
@@ -216,6 +219,10 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
       Session.set("mode", mode);
 			thisPeriodStart = thisMonthStart;
 			thisPeriodEnd = thisMonthEnd;
+      //Show this section as active
+      $(".summary-box").removeClass("active");
+      $("#monthBox").addClass("active");
+
       setTitleDates();
 			filterDates();
 		},	
@@ -224,6 +231,9 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
       Session.set("mode", mode);
 			thisPeriodStart = allTimeStart;
 			thisPeriodEnd = allTimeEnd;
+      //Show this section as active
+      $(".summary-box").removeClass("active");
+      $("#allTimeBox").addClass("active");
       setTitleDates();
 			filterDates();
 		},		

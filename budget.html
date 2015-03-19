@@ -117,7 +117,7 @@
 
   <div class="row">
     <div class="col-sm-4">
-      <div class="summary-box">
+      <div class="summary-box active" id="weekBox">
         <div class="summary-box-top">
           <div class="summary-box-title">Weekly Expenses For:</div>
           <div class="summary-box-subtitle">{{thisWeekStart}} - {{thisWeekEnd}}</div>
@@ -133,7 +133,7 @@
     </div>
 
     <div class="col-sm-4">
-      <div class="summary-box">
+      <div class="summary-box" id="monthBox">
         <div class="summary-box-top">
           <div class="summary-box-title">Monthly Expenses For:</div>
           <div class="summary-box-subtitle">{{thisMonthStart}} - {{thisMonthEnd}}</div>
@@ -147,7 +147,7 @@
     </div>
 
     <div class="col-sm-4">
-      <div class="summary-box">
+      <div class="summary-box" id="allTimeBox">
         <div class="summary-box-top"><div class="summary-box-title">All-Time Spending</div></div>
         <div class="summary-box-content">
           <p>Spending: {{allTimeSpending}}</p>
