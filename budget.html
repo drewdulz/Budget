@@ -1,11 +1,8 @@
 <head>
   <title>Drew's Budget</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
   <!-- Badass google font -->
   <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
-
-
 </head>
 
 <body>
@@ -28,8 +25,8 @@
 				<tbody>
 					{{> expenseInput}}
 					{{#each expenses}}
-				        {{> expense}}
-				    {{/each}}
+            {{> expense}}
+			    {{/each}}
 			    </tbody>
 
 
@@ -71,16 +68,10 @@
     </td>
 		<td><input type='text' class="form-control clear required" id='store' placeholder="Store"></td>
 		<td><input type='text' class="form-control clear required" id='description' placeholder="Description"></td>
-		<td><div class="input-group"><div class="input-group-addon clear ">$</div><input type="text" class="form-control required" id="amount" placeholder="Amount"></div></td>
+		<td><div class="input-group"><div class="input-group-addon">$</div><input type="text" class="form-control clear required" id="amount" placeholder="Amount"></div></td>
 		<td><select class="form-control" id="category"><option>Spending</option><option>Food</option></select></td>
 		<td><button type="button" id="add-expense" class="btn btn-success" disabled="{{isNotValid}}" >Submit</button></td>
 	</tr>
-
-<!--   {{#if bold}}
-    <b>Hello {{name}}!</b>
-  {{else}}
-    Hello {{name}}!
-  {{/if}} -->
 
 </template>
 
@@ -88,10 +79,10 @@
       <p class="button-title">Show me transactions: </p>
       <div class="btn-group date-range-buttons" data-toggle="buttons">
         <label class="btn btn-default active thisWeek">
-          <input type="radio" name="options" id="thisWeek" autocomplete="off" checked>Weekly
+          <input type="radio" name="options" id="thisWeek" autocomplete="off">Weekly
         </label>
         <label class="btn btn-default thisMonth">
-          <input type="radio" name="options" id="thisMonth" autocomplete="off">Monthly
+          <input type="radio" name="options" id="thisMonth" autocomplete="off" >Monthly
         </label>
         <label class="btn btn-default allTime">
           <input type="radio" name="options" id="allTime" autocomplete="off">All Time
@@ -123,7 +114,7 @@
 
   <div class="row">
     <div class="col-sm-4">
-      <div class="summary-box">
+      <div class="summary-box active thisWeek" id="weekBox">
         <div class="summary-box-top">
           <div class="summary-box-title">Weekly Expenses For:</div>
           <div class="summary-box-subtitle">{{thisWeekStart}} - {{thisWeekEnd}}</div>
@@ -138,7 +129,7 @@
     </div>
 
     <div class="col-sm-4">
-      <div class="summary-box">
+      <div class="summary-box thisMonth" id="monthBox">
         <div class="summary-box-top">
           <div class="summary-box-title">Monthly Expenses For:</div>
           <div class="summary-box-subtitle">{{thisMonthStart}} - {{thisMonthEnd}}</div>
@@ -152,7 +143,7 @@
     </div>
 
     <div class="col-sm-4">
-      <div class="summary-box">
+      <div class="summary-box" id="allTimeBox">
         <div class="summary-box-top"><div class="summary-box-title">All-Time Spending</div></div>
         <div class="summary-box-content">
           <p>Spending: {{allTimeSpending}}</p>
