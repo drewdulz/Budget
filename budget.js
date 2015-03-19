@@ -235,7 +235,9 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
 		  });
 			// Clear all the inputs except the date, set the from state to invalid.
 			$('.clear').val('');
-      $('.form-control').addClass('required');
+      $('#store').addClass('required');
+      $('#description').addClass('required');
+      $('#amount').addClass('required');
       Session.set("isNotValid", true);
       updateGraphs();  
 		},	
@@ -286,6 +288,7 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
   Template.expense.events({
 		"click .delete-button": function () {
 			Expenses.remove(this._id);
+      updateGraphs();
 
 		},	
 	});
