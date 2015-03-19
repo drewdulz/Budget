@@ -12,7 +12,6 @@ var mode = "week";
 var weekChange; var monthChange;
 
 var thisPeriodStart = thisWeekStart;
-console.log(thisPeriodStart);
 var thisPeriodEnd = thisWeekEnd;
 var periodExpenses = [];
 
@@ -28,7 +27,6 @@ var remainingColor = "#B4B4B4";
 var weekBudgetSpending = 50.00;
 var weekBudgetFood = 100.00;
 var monthBudgetSpending = (weekBudgetSpending / 7) * thisMonthEnd.diff(thisMonthStart, 'days');
-console.log(monthBudgetSpending);
 var monthBudgetFood = (weekBudgetFood / 7) * thisMonthEnd.diff(thisMonthStart, 'days');
 
 
@@ -72,12 +70,10 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
   
   Template.budgetSummary.rendered = function() {
     //Initialize title
-    // console.log(thisPeriodStart);
     setTitleDates();
     Session.set("mode", mode);   
     
     // Render those charts
-    console.log("Rendering Charts");
     // Week Chart
     ctx1 = document.getElementById("weekChart").getContext("2d");
     weekChart = new Chart(ctx1).Doughnut(chartData, chartOptions);
@@ -136,6 +132,12 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
       return Session.get("thisMonthEnd");
     },
 	});
+
+  Template.expenseInput.helpers({
+    isNotValid: function() {
+      return Session.get("isNotValid");
+    },
+  });
   
   Template.budgetSummary.events({
 		"click #previous": function () {
@@ -149,9 +151,8 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
 
 
 	Template.expenseInput.rendered = function() {
-		$('#datetimepicker6').datetimepicker({
-      format: 'MMM D YYYY'
-    });
+		$('#datetimepicker6').datetimepicker({format: 'MMM D YYYY'});
+    Session.set("isNotValid", true);
 	}
   
   // Set the date input value to a default
@@ -168,6 +169,52 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
     "blur #datetimepicker6": function () {
       Session.set("defaultDate", $('#datetimepicker6').val());
     },
+    "blur #store": function () {
+      //if store is not blank or not string do something
+      var store = document.getElementById('store').value;
+      if(typeof(store) != 'string' || store == '') {
+        $('#store').addClass('invalid');
+        $('#description').addClass('required');
+        Session.set("isNotValid", true);
+      } else {
+        $('#store').removeClass('invalid');
+        $('#store').removeClass('required');
+      }
+      if(!$(".required")[0]) {
+        Session.set("isNotValid", false);
+      }
+    },
+    "blur #description": function () {
+      //if store is not blank or not string do something
+      var description = document.getElementById('description').value;
+      if(typeof(description) != 'string' || description == '') {
+        $('#description').addClass('invalid');
+        $('#description').addClass('required');
+        Session.set("isNotValid", true);
+      } else {
+        $('#description').removeClass('invalid');
+        $('#description').removeClass('required');
+      }
+      if(!$(".required")[0]) {
+        Session.set("isNotValid", false);
+      }
+    },
+    "blur #amount": function () {
+      //if store is not blank or not string do something
+      //TODO: This is not correct -> amount is not being checked properly
+      var amount = document.getElementById('amount').value;
+      if( isNaN(amount) || amount == '') {
+        $('#amount').addClass('invalid');
+        $('#description').addClass('required');
+        Session.set("isNotValid", true);
+      } else {
+        $('#amount').removeClass('invalid');
+        $('#amount').removeClass('required');
+      }
+      if(!$(".required")[0]) {
+        Session.set("isNotValid", false);
+      }
+    },
 		"click #prev-day": function () {
       var currentDefault = Session.get("defaultDate");
       currentDefault = moment(currentDefault, "MMM D YYYY").subtract(1,'day').format("MMM D YYYY");
@@ -180,9 +227,7 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
       Session.set("defaultDate", currentDefault);
     },
 
-    "click .add-expense": function () {
-			console.log("Adding Expense");
-      console.log(document.getElementById('datetimepicker6').value);
+    "click #add-expense": function () {
 			var date = new Date(document.getElementById('datetimepicker6').value);
 			var store = document.getElementById('store').value;
 			var desc = document.getElementById('description').value;
@@ -196,9 +241,10 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
 				amount: amount,
 				category: category
 		  });
-			// Clear all the inputs except the date.
+			// Clear all the inputs except the date, set the from state to invalid.
 			$('.clear').val('');
-      updateGraphs();    
+      Session.set("isValid", false);
+      updateGraphs();  
 		},	
 	});
 
@@ -237,13 +283,11 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
 	});
 
   var updateGraphs = function () {
-    console.log("Updating the Graphs");
     weekTotal = [0.00, 0.00];
     monthTotal = [0.00, 0.00];
     allTimeTotal = [0.00, 0.000];
     weekChange = monthChange = false;
     var expenses = Expenses.find({}, {sort: {date: -1}})
-    // console.log(expenses.fetch());
     
     // Calculate the totals for the graph
     expenses.forEach(function(expense) {
@@ -317,7 +361,6 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
   };
   
   var filterDates = function() {
-    console.log("getting the expenses in the active period");
     // Get the expenses
     var expenses = Expenses.find({}, {sort: {date: -1}})
     //TODO: this ^ can be made more efficinent now that the dates are sorted. Shouldn't have to iterate through them all. Can stop after the last one that is true.
@@ -343,7 +386,6 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
   var setTitleDates = function() {
     //If the time period is a month, then we need to add a day to make it display properly.
     if( thisPeriodEnd.diff(thisPeriodStart, 'days') > 7 && thisPeriodEnd.diff(thisPeriodStart, 'days') < 33) {
-      console.log("Month");
       Session.set("periodStart", moment(thisPeriodStart).add(1, 'day').format("MMM D YYYY"));
       Session.set("periodEnd", moment(thisPeriodEnd).format("MMM D YYYY"));
     } else if(mode == "allTime") {
@@ -399,10 +441,10 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
 
   var setDefaultDate = function() {
     //Set the default input date
-    console.log(periodExpenses[0]);
-    // Session.set("defaultDate", "PENIS");
     if(typeof periodExpenses[0] != 'undefined' || periodExpenses[0] != null) {
       Session.set("defaultDate", periodExpenses[0].date);
+    } else if(mode == 'month'){
+      Session.set("defaultDate", thisPeriodStart.add(1, 'day').format("MMM D YYYY"));
     } else {
       Session.set("defaultDate", thisPeriodStart.format("MMM D YYYY"));
     }
