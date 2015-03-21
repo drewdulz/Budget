@@ -395,6 +395,23 @@ console.log("week over budget");
       
       monthChart.update();
     }
+
+    //TODO: SOMETHING IS WRONG HERE - SOMETIMES THE CHARTS UPDATES ACCORDING TO LAST WEEK??? or MONTH
+    if(mode == "week" && periodExpenses.length < 1) {
+console.log('no expenses this week');
+      weekChart.segments[0].value = 0;
+      weekChart.segments[1].value = 0;
+      weekChart.segments[2].value = 100;
+      weekChart.update();
+    }
+
+    if(mode == "month" && periodExpenses.length < 1) {
+console.log('no expenses this month');
+      monthChart.segments[0].value = 0;
+      monthChart.segments[1].value = 0;
+      monthChart.segments[2].value = 100;
+      monthChart.update();
+    }
     
 
   };
