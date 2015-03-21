@@ -159,7 +159,7 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
   
   Template.expenseInput.events({
     "blur #datetimepicker6": function () {
-      Session.set("defaultDate", $('#datetimepicker6').val());
+      Session.set("defaultDate", moment($('#datetimepicker6').val()));
     },
     "blur #store": function () {
       //if store is not blank or not string do something
@@ -409,8 +409,8 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
       Session.set("periodStart", moment(thisPeriodStart).add(1, 'day').format("MMM D YYYY"));
       Session.set("periodEnd", moment(thisPeriodEnd).format("MMM D YYYY"));
     }
-    Session.set("thisWeekStart", moment(thisWeekStart).format("MMM D YYYY"));
-    Session.set("thisWeekEnd", moment(thisWeekEnd).subtract(1, 'day').format("MMM D YYYY"));
+    Session.set("thisWeekStart", moment(thisWeekStart).add(1,'day').format("MMM D YYYY"));
+    Session.set("thisWeekEnd", moment(thisWeekEnd).format("MMM D YYYY"));
     Session.set("thisMonthStart", moment(thisMonthStart).add(1, 'day').format("MMM D YYYY"));
     Session.set("thisMonthEnd", moment(thisMonthEnd).format("MMM D YYYY"));
   };
