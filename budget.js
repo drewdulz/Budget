@@ -71,7 +71,9 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
   Template.budgetSummary.rendered = function() {
     //Initialize title
     setTitleDates();
-    Session.set("mode", mode);   
+    Session.set("mode", mode); 
+    Session.set("weekOverBudget", false);
+    Session.set("monthOverBudget", false);
     
     // Render those charts
     // Week Chart
@@ -130,6 +132,12 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
     },
     thisMonthEnd: function() {
       return Session.get("thisMonthEnd");
+    },
+    weekOverBudget: function() {
+      return Session.get("weekOverBudget");
+    },
+    monthOverBudget: function() {
+      return Session.get("monthOverBudget");
     },
 	});
 
@@ -332,31 +340,59 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
         allTimeTotal[1].toFixed(2);
       }
     });
- 
-    Session.set("weekSpending", weekTotal[0]);
-    Session.set("weekFood", weekTotal[1]);
-    Session.set("monthSpending", monthTotal[0]);
-    Session.set("monthFood", monthTotal[1]);
-    Session.set("allTimeSpending", allTimeTotal[0]);
-    Session.set("allTimeFood", allTimeTotal[1]);
+    // Check for overbudget
+    if(weekTotal[0] > weekBudgetSpending) {
+      Session.set("weekSpending", (weekBudetSpending - weekTotal[0]));
+    } else {
+      Session.set("weekSpending", weekTotal[0]);
+    }
+    if(weekTotal[1] > weekBudgetFood) {
+      Session.set("weekFood", (weekBudgetFood - weekTotal[1])); 
+    } else {
+      Session.set("weekFood", weekTotal[1]);
+    }
+    if(monthTotal[0] > monthBudgetSpending) {
+      Session.set("monthSpending", monthBudgetSpending - monthTotal[0]);
+    } else {
+      Session.set("monthSpending", monthTotal[0]);
+    }
+    if(monthTotal[1] > monthBudgetFood) {
+      Session.set("monthFood", monthBudgetFood - monthTotal[1]);
+    } else {
+      Session.set("monthFood", monthTotal[1]);
+    }
     
     //Update the Charts
     if(weekChange) {
       if((weekTotal[0] + weekTotal[1]) > (weekBudgetSpending + weekBudgetFood)) {
-        //Overbudget, do something to show it.
+        //Overbudget
+        weekChart.segments[0].value = weekTotal[0] / (weekTotal[0] + weekTotal[1]);
+        weekChart.segments[1].value = weekTotal[1] / (weekTotal[0] + weekTotal[1]);
+        weekChart.segments[2].value = 0;
+        Session.set("weekOverBudget", true);
+console.log("week over budget");
+      } else {
+        weekChart.segments[0].value = weekTotal[0];
+        weekChart.segments[1].value = weekTotal[1];
+        weekChart.segments[2].value = weekBudgetSpending + weekBudgetFood - weekTotal[0] - weekTotal[1];
       }
-      weekChart.segments[0].value = weekTotal[0];
-      weekChart.segments[1].value = weekTotal[1];
-      weekChart.segments[2].value = weekBudgetSpending + weekBudgetFood - weekTotal[0] - weekTotal[1];
+      
       weekChart.update();
     }
     if (monthChange) {
       if((monthTotal[0] + monthTotal[1]) > (monthBudgetSpending + monthBudgetFood)) {
-        //Overbudget, do something to show it.
+        //Overbudget
+        monthChart.segments[0].value = monthTotal[0] / (monthTotal[0] + monthTotal[1]);
+        monthChart.segments[1].value = monthTotal[1] / (monthTotal[0] + monthTotal[1]);
+        monthChart.segments[2].value = 0;
+        Session.set("monthOverBudget", true);
+console.log("week over budget");
+      } else {
+        monthChart.segments[0].value = monthTotal[0];
+        monthChart.segments[1].value = monthTotal[1];
+        monthChart.segments[2].value = monthBudgetSpending + monthBudgetFood - monthTotal[0] - monthTotal[1];
       }
-      monthChart.segments[0].value = monthTotal[0];
-      monthChart.segments[1].value = monthTotal[1];
-      monthChart.segments[2].value = monthBudgetSpending + monthBudgetFood - monthTotal[0] - monthTotal[1];
+      
       monthChart.update();
     }
     

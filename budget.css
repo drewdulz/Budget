@@ -79,6 +79,10 @@ body {
 	margin-right: 15px;
 }
 
+.overbudget {
+	color: red;
+}
+
 .date-col {
 	width: 15%;
 }
