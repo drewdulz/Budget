@@ -247,7 +247,6 @@ if (Meteor.isClient) {
 
   //TODO, this can be refacotred becasue we know the mode and have all expenses from that mode.
   var updateCharts = function (expenses) {
-    console.log("updateGraphs");
     total = Array.apply(null, new Array(budgetCategories.length)).map(Number.prototype.valueOf,0);
     Session.set("weekOverBudget", false);
     Session.set("monthOverBudget", false);
@@ -263,10 +262,7 @@ if (Meteor.isClient) {
 
     //Update the Charts
     if(mode == "week") {
-      console.log("week");
       if((total[0] + total[1]) > (weekBudgetSpending + weekBudgetFood)) {
-        console.log(total[0]);
-        console.log(total[1]);
         //Overbudget
         weekChart.segments[0].value = total[0] / (total[0] + total[1]);
         weekChart.segments[1].value = total[1] / (total[0] + total[1]);
@@ -274,7 +270,6 @@ if (Meteor.isClient) {
         Session.set("weekOverBudget", true);
 console.log("week over budget");
       } else {
-        console.log(total[0]);
         weekChart.segments[0].value = total[0];
         weekChart.segments[1].value = total[1];
         weekChart.segments[2].value = weekBudgetSpending + weekBudgetFood - total[0] - total[1];
@@ -418,7 +413,6 @@ Meteor.methods({
       alert("please enter a valid date");
       valid = false
     }
-    console.log(date);
     if(typeof store == 'string' && store != '') {
       data.store = store
     } else {
