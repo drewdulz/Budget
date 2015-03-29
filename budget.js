@@ -1,4 +1,5 @@
 Expenses = new Mongo.Collection("expenses");
+
 var weekTotal = [0.00, 0.00];
 var monthTotal = [0.00, 0.00];
 var allTimeTotal = [0.00, 0.00];
@@ -14,6 +15,7 @@ var weekChange; var monthChange;
 var thisPeriodStart = thisWeekStart;
 var thisPeriodEnd = thisWeekEnd;
 var periodExpenses = [];
+var expenses;
 
 //Chart values
 var ctx;
@@ -22,33 +24,34 @@ var spendingColor = "#F7464A";
 var foodColor = "#46BFBD";
 var remainingColor = "#B4B4B4";
 
-
 //Budget Values
 var weekBudgetSpending = 50.00;
 var weekBudgetFood = 100.00;
 var monthBudgetSpending = (weekBudgetSpending / 7) * thisMonthEnd.diff(thisMonthStart, 'days');
 var monthBudgetFood = (weekBudgetFood / 7) * thisMonthEnd.diff(thisMonthStart, 'days');
 
+//Categories
+var budgetCategories = ["Spending", "Food"];
 
 var chartData = [
-    {
-        value: 0,
-        color: spendingColor,
-        highlight: "#FF5A5E",
-        label: "Spending"
-    },
-    {
-        value: 0,
-        color: foodColor,
-        highlight: "#5AD3D1",
-        label: "Food"
-    },
-    {
-        value: 100,
-        color: remainingColor,
-        highlight: "#C8C8C8",
-        label: "Remaining"
-    }
+  {
+      value: 0,
+      color: spendingColor,
+      highlight: "#FF5A5E",
+      label: "Spending"
+  },
+  {
+      value: 0,
+      color: foodColor,
+      highlight: "#5AD3D1",
+      label: "Food"
+  },
+  {
+      value: 100,
+      color: remainingColor,
+      highlight: "#C8C8C8",
+      label: "Remaining"
+  }
 ]
 
 var chartOptions = {
@@ -57,17 +60,12 @@ var chartOptions = {
 };
 
 
-if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THAT IT CAN ITERATE THROUGH THEM THE RIGHT WAY
-// 	This code only runs on the client
+if (Meteor.isClient) {
   
-  Template.body.helpers({
-		expenses: function () {
-      filterDates();
-      // updateGraphs(); //update the graphs anytime the page is loaded.
-      return periodExpenses;
-		},
-	});
-  
+  //-------------------------------------//
+  //              Renderers              //
+  //-------------------------------------//
+
   Template.budgetSummary.rendered = function() {
     //Initialize title
     setTitleDates();
@@ -75,21 +73,35 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
     Session.set("weekOverBudget", false);
     Session.set("monthOverBudget", false);
     
-    // Render those charts
+    // Render the charts
     // Week Chart
     ctx1 = document.getElementById("weekChart").getContext("2d");
     weekChart = new Chart(ctx1).Doughnut(chartData, chartOptions);
-     var legend1 = weekChart.generateLegend();
-     $('#weekChart').append(legend1);
+    var legend1 = weekChart.generateLegend();
+    $('#weekChart').append(legend1);
     // Month Chart
     ctx2 = document.getElementById("monthChart").getContext("2d");
     monthChart = new Chart(ctx2).Doughnut(chartData, chartOptions);
-//     var legend2 = monthChart.generateLegend();
-//     $('#monthChart').append(legend2);
-    updateGraphs(); //update the graphs anytime the page is loaded.
+
+    getExpenses(thisPeriodStart, thisPeriodEnd) //get the expenses and update the graphs anytime the page is loaded.
 	}
+
+  //Initialize the Datepicker
+  Template.expenseInput.rendered = function() {
+    $('#datetimepicker6').datetimepicker({format: 'MMM D YYYY'});
+  }
   
+
+  //-------------------------------------//
+  //              Helpers                //
+  //-------------------------------------//
   
+  Template.body.helpers({
+    expenses: function () {
+      return Session.get("expenses");
+    }
+  });
+
   Template.budgetSummary.helpers({
 		weekSpending: function () {
       return Session.get("weekSpending");
@@ -140,20 +152,6 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
       return Session.get("monthOverBudget");
     },
 	});
-
-  Template.expenseInput.helpers({
-    isNotValid: function() {
-      return Session.get("isNotValid");
-    },
-  });
-  
-  
-
-
-	Template.expenseInput.rendered = function() {
-		$('#datetimepicker6').datetimepicker({format: 'MMM D YYYY'});
-    Session.set("isNotValid", true);
-	}
   
   // Set the date input value to a default
   Template.expenseInput.helpers({
@@ -163,58 +161,17 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
     
   });
   
+
+  //-------------------------------------//
+  //                Events               //
+  //-------------------------------------//
   
   
   Template.expenseInput.events({
     "blur #datetimepicker6": function () {
       Session.set("defaultDate", moment($('#datetimepicker6').val()));
     },
-    "blur #store": function () {
-      //if store is not blank or not string do something
-      var store = document.getElementById('store').value;
-      if(typeof(store) != 'string' || store == '') {
-        $('#store').addClass('invalid');
-        $('#description').addClass('required');
-        Session.set("isNotValid", true);
-      } else {
-        $('#store').removeClass('invalid');
-        $('#store').removeClass('required');
-      }
-      if(!$(".required")[0]) {
-        Session.set("isNotValid", false);
-      }
-    },
-    "blur #description": function () {
-      //if store is not blank or not string do something
-      var description = document.getElementById('description').value;
-      if(typeof(description) != 'string' || description == '') {
-        $('#description').addClass('invalid');
-        $('#description').addClass('required');
-        Session.set("isNotValid", true);
-      } else {
-        $('#description').removeClass('invalid');
-        $('#description').removeClass('required');
-      }
-      if(!$(".required")[0]) {
-        Session.set("isNotValid", false);
-      }
-    },
-    "blur #amount": function () {
-      //if store is not blank or not string do something
-      //TODO: This is not correct -> amount is not being checked properly
-      var amount = document.getElementById('amount').value;
-      if( isNaN(amount) || amount == '') {
-        $('#amount').addClass('invalid');
-        $('#description').addClass('required');
-        Session.set("isNotValid", true);
-      } else {
-        $('#amount').removeClass('invalid');
-        $('#amount').removeClass('required');
-      }
-      if(!$(".required")[0]) {
-        Session.set("isNotValid", false);
-      }
-    },
+
 		"click #prev-day": function () {
       var currentDefault = Session.get("defaultDate");
       currentDefault = moment(currentDefault, "MMM D YYYY").subtract(1,'day').format("MMM D YYYY");
@@ -228,26 +185,18 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
     },
 
     "click #add-expense": function () {
+      // Get all the data from the form and input into database.
 			var date = new Date(document.getElementById('datetimepicker6').value);
 			var store = document.getElementById('store').value;
 			var desc = document.getElementById('description').value;
-			var amount = document.getElementById('amount').value;
+      var amount = document.getElementById('amount').value;
 			var category = document.getElementById('category').value;
 
-			Expenses.insert({
-				date: date,
-				store: store,
-				description: desc,
-				amount: amount,
-				category: category
-		  });
-			// Clear all the inputs except the date, set the from state to invalid.
-			$('.clear').val('');
-      $('#store').addClass('required');
-      $('#description').addClass('required');
-      $('#amount').addClass('required');
-      Session.set("isNotValid", true);
-      updateGraphs();  
+      // If the adding was succesfull, clear all the inputs.
+			Meteor.call("addExpense", date, store, desc, amount, category); 
+      // TODO: Need some front end form validation here.
+      getExpenses(thisPeriodStart, thisPeriodEnd);
+      
 		},	
 	});
 
@@ -261,7 +210,7 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
       $(".summary-box").removeClass("active");
       $("#weekBox").addClass("active");
       setTitleDates();
-			filterDates();
+      getExpenses(thisPeriodStart, thisPeriodEnd);
 		},
 		"click .thisMonth": function () {
       mode = "month";
@@ -272,18 +221,7 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
       $(".summary-box").removeClass("active");
       $("#monthBox").addClass("active");
       setTitleDates();
-			filterDates();
-		},	
-		"click .allTime": function () {
-      mode = "allTime";
-      Session.set("mode", mode);
-			thisPeriodStart = allTimeStart;
-			thisPeriodEnd = allTimeEnd;
-      //Show this section as active
-      $(".summary-box").removeClass("active");
-      $("#allTimeBox").addClass("active");
-      setTitleDates();
-			filterDates();
+      getExpenses(thisPeriodStart, thisPeriodEnd);
 		},	
     "click #previous": function () {
       changePeriod("back");
@@ -295,124 +233,70 @@ if (Meteor.isClient) { //THE ARRAY ISN'T GOING INTO THE FUNCTION PROPERLY SO THA
 
   Template.expense.events({
 		"click .delete-button": function () {
-			Expenses.remove(this._id);
-      updateGraphs();
-
+      Meteor.call("deleteExpense", this._id); 
+      getExpenses(thisPeriodStart, thisPeriodEnd);
 		},	
 	});
 
-  var updateGraphs = function () {
-    weekTotal = [0.00, 0.00];
-    monthTotal = [0.00, 0.00];
-    allTimeTotal = [0.00, 0.000];
-    weekChange = monthChange = false;
-    var expenses = Expenses.find({}, {sort: {date: -1}})
-    
-    // Calculate the totals for the graph
+
+
+  //-------------------------------------//
+  //              Functions              //
+  //-------------------------------------//
+
+
+  //TODO, this can be refacotred becasue we know the mode and have all expenses from that mode.
+  var updateCharts = function (expenses) {
+    console.log("updateGraphs");
+    total = Array.apply(null, new Array(budgetCategories.length)).map(Number.prototype.valueOf,0);
+    Session.set("weekOverBudget", false);
+    Session.set("monthOverBudget", false);
+
+    //Look at the current mode and go through each expense and classify it, then update the graph for that mode.
     expenses.forEach(function(expense) {
-      if(isBetween(expense.date, thisWeekStart, thisWeekEnd)) {
-        weekChange = true;
-        if(expense.category == "Spending") {
-          weekTotal[0] += parseFloat(expense.amount);
-          weekTotal[0].toFixed(2);
-        } else {
-          weekTotal[1] += parseFloat(expense.amount);
-          weekTotal[1].toFixed(2);
+      for(var i = 0; i < budgetCategories.length; i++) {
+        if(expense.category == budgetCategories[i]) {
+          total[i] += parseFloat(expense.amount);
         }
       }
+    }); 
 
-      if(isBetween(expense.date, thisMonthStart, thisMonthEnd)) {
-        monthChange = true;
-        if(expense.category == "Spending") {
-          monthTotal[0] += parseFloat(expense.amount);
-          monthTotal[0].toFixed(2);
-        } else {
-          monthTotal[1] += parseFloat(expense.amount);
-          monthTotal[1].toFixed(2);
-        }
-      }
-
-      if(expense.category == "Spending") {
-        allTimeTotal[0] += parseFloat(expense.amount);
-        allTimeTotal[0].toFixed(2);
-      } else {
-        allTimeTotal[1] += parseFloat(expense.amount);
-        allTimeTotal[1].toFixed(2);
-      }
-    });
-    // Check for overbudget
-    if(weekTotal[0] > weekBudgetSpending) {
-      Session.set("weekSpending", (weekBudetSpending - weekTotal[0]));
-    } else {
-      Session.set("weekSpending", weekTotal[0]);
-    }
-    if(weekTotal[1] > weekBudgetFood) {
-      Session.set("weekFood", (weekBudgetFood - weekTotal[1])); 
-    } else {
-      Session.set("weekFood", weekTotal[1]);
-    }
-    if(monthTotal[0] > monthBudgetSpending) {
-      Session.set("monthSpending", monthBudgetSpending - monthTotal[0]);
-    } else {
-      Session.set("monthSpending", monthTotal[0]);
-    }
-    if(monthTotal[1] > monthBudgetFood) {
-      Session.set("monthFood", monthBudgetFood - monthTotal[1]);
-    } else {
-      Session.set("monthFood", monthTotal[1]);
-    }
-    
     //Update the Charts
-    if(weekChange) {
-      if((weekTotal[0] + weekTotal[1]) > (weekBudgetSpending + weekBudgetFood)) {
+    if(mode == "week") {
+      console.log("week");
+      if((total[0] + total[1]) > (weekBudgetSpending + weekBudgetFood)) {
+        console.log(total[0]);
+        console.log(total[1]);
         //Overbudget
-        weekChart.segments[0].value = weekTotal[0] / (weekTotal[0] + weekTotal[1]);
-        weekChart.segments[1].value = weekTotal[1] / (weekTotal[0] + weekTotal[1]);
+        weekChart.segments[0].value = total[0] / (total[0] + total[1]);
+        weekChart.segments[1].value = total[1] / (total[0] + total[1]);
         weekChart.segments[2].value = 0;
         Session.set("weekOverBudget", true);
 console.log("week over budget");
       } else {
-        weekChart.segments[0].value = weekTotal[0];
-        weekChart.segments[1].value = weekTotal[1];
-        weekChart.segments[2].value = weekBudgetSpending + weekBudgetFood - weekTotal[0] - weekTotal[1];
+        console.log(total[0]);
+        weekChart.segments[0].value = total[0];
+        weekChart.segments[1].value = total[1];
+        weekChart.segments[2].value = weekBudgetSpending + weekBudgetFood - total[0] - total[1];
       }
       
       weekChart.update();
-    }
-    if (monthChange) {
-      if((monthTotal[0] + monthTotal[1]) > (monthBudgetSpending + monthBudgetFood)) {
+    } else {
+      if((total[0] + total[1]) > (monthBudgetSpending + monthBudgetFood)) {
         //Overbudget
-        monthChart.segments[0].value = monthTotal[0] / (monthTotal[0] + monthTotal[1]);
-        monthChart.segments[1].value = monthTotal[1] / (monthTotal[0] + monthTotal[1]);
+        monthChart.segments[0].value = total[0] / (total[0] + total[1]);
+        monthChart.segments[1].value = total[1] / (total[0] + total[1]);
         monthChart.segments[2].value = 0;
         Session.set("monthOverBudget", true);
-console.log("week over budget");
+console.log("month over budget");
       } else {
-        monthChart.segments[0].value = monthTotal[0];
-        monthChart.segments[1].value = monthTotal[1];
-        monthChart.segments[2].value = monthBudgetSpending + monthBudgetFood - monthTotal[0] - monthTotal[1];
+        monthChart.segments[0].value = total[0];
+        monthChart.segments[1].value = total[1];
+        monthChart.segments[2].value = monthBudgetSpending + monthBudgetFood - total[0] - total[1];
       }
       
       monthChart.update();
     }
-
-    //TODO: SOMETHING IS WRONG HERE - SOMETIMES THE CHARTS UPDATES ACCORDING TO LAST WEEK??? or MONTH
-    if(mode == "week" && periodExpenses.length < 1) {
-console.log('no expenses this week');
-      weekChart.segments[0].value = 0;
-      weekChart.segments[1].value = 0;
-      weekChart.segments[2].value = 100;
-      weekChart.update();
-    }
-
-    if(mode == "month" && periodExpenses.length < 1) {
-console.log('no expenses this month');
-      monthChart.segments[0].value = 0;
-      monthChart.segments[1].value = 0;
-      monthChart.segments[2].value = 100;
-      monthChart.update();
-    }
-    
 
   };
   
@@ -422,29 +306,6 @@ console.log('no expenses this month');
     } else {
       return false;
     }
-  };
-  
-  var filterDates = function() {
-    // Get the expenses
-    var expenses = Expenses.find({}, {sort: {date: -1}})
-    //TODO: this ^ can be made more efficinent now that the dates are sorted. Shouldn't have to iterate through them all. Can stop after the last one that is true.
-    
-    // Push all of the expenses fom the active week into an array AND format the date
-    periodExpenses = [];
-    expenses.forEach(function(expense) {
-      if(isBetween(expense.date, thisPeriodStart, thisPeriodEnd)) {
-        //Format the date first
-        expense.date = moment(expense.date).format("MMM D YYYY");
-
-        periodExpenses.push(expense);
-      }
-      
-    });
-    Session.set("expenses", periodExpenses);
-    Session.get("expenses");
-
-    //Update the defualt date.
-    setDefaultDate();
   };
   
   var setTitleDates = function() {
@@ -468,43 +329,39 @@ console.log('no expenses this month');
     Session.set("thisMonthEnd", moment(thisMonthEnd).format("MMM D YYYY"));
   };
   
+  //Takes in the direction of where we want to go, and depending if we are looking at weeks or months it changes the current period
+  //and gets the expenses for that period.
   var changePeriod = function(direction) {
-   //Needs to be logic for when in between months.
     if(direction == "forward") {
       if(mode == "week") {
         thisWeekStart = thisWeekStart.add(7, 'day');
         thisWeekEnd = thisWeekEnd.add(7, 'day');
-        setCurrentPeriod(mode);
+        setCurrentPeriod(thisWeekStart, thisWeekEnd);
       } else {
         thisMonthStart = thisMonthStart.add(32,'day').startOf('month').subtract(1, 'day'); 
         thisMonthEnd = thisMonthEnd.add(3, 'day').endOf('month');
-        setCurrentPeriod(mode);
+        setCurrentPeriod(thisMonthStart, thisMonthEnd);
       }
     } else {
       if(mode == "week") {
         thisWeekStart = thisWeekStart.subtract(7, 'day');
         thisWeekEnd = thisWeekEnd.subtract(7, 'day');
-        setCurrentPeriod(mode);
+        setCurrentPeriod(thisWeekStart, thisWeekEnd);
       } else {
         thisMonthStart = thisMonthStart.subtract(3,'day').startOf('month').subtract(1, 'day'); 
         thisMonthEnd = thisMonthEnd.subtract(32, 'day').endOf('month');
-        setCurrentPeriod(mode);
+        setCurrentPeriod(thisMonthStart, thisMonthEnd);
       }
     }
-    updateGraphs();
     setTitleDates();
-    filterDates();
+    getExpenses(thisPeriodStart, thisPeriodEnd);
   }
   
-  var setCurrentPeriod = function(type) {
-    if(type == "week") {
-      thisPeriodStart = thisWeekStart;
-      thisPeriodEnd = thisWeekEnd;
-    } else {
-      thisPeriodStart = thisMonthStart;
-      thisPeriodEnd = thisMonthEnd;    
-    }
+  var setCurrentPeriod = function(startDate, endDate) {
+      thisPeriodStart = startDate;
+      thisPeriodEnd = endDate;  
   }
+  
 
   var setDefaultDate = function() {
     //Set the default input date
@@ -516,10 +373,85 @@ console.log('no expenses this month');
       Session.set("defaultDate", thisPeriodStart.format("MMM D YYYY"));
     }
   }
-  
 
-  
+  // Gets expense from the database that are between the start Date and the end date. Dates must be JS.
+  // Then it sets the current expenses for the session.
+  var getExpenses = function (startDate, endDate) {
+    var expenses = [];
+    var formattedExpenses = [];
+
+    // Set the dates to be JS date format.
+    startDate = startDate.toDate();
+    endDate = endDate.toDate()
+    expenses = Expenses.find({ date: { $gte:startDate, $lte:endDate } }, {sort: {date: -1}});
+
+    //Format the dates nicely.
+    expenses.forEach(function(expense) {
+      expense.date = moment(expense.date).format("MMM D YYYY");
+      formattedExpenses.push(expense);
+    });
+
+    Session.set("expenses", formattedExpenses);
+
+    //Update the graphs
+    updateCharts(formattedExpenses);
+  }
 }
+
+  //-------------------------------------//
+  //          Meteor Methods             //
+  //-------------------------------------//
+
+Meteor.methods({
+  deleteExpense: function (expenseId) {
+    Expenses.remove(expenseId);
+  },
+
+  // Adds an expense to the database. Returns true if added successfully, and false if there are issues.
+  addExpense: function (date, store, desc, amount, category) {
+    var data = {};
+    var valid = true;
+    //Validate the data
+    if(date instanceof Date && date != '') { 
+      data.date = date
+    } else {
+      alert("please enter a valid date");
+      valid = false
+    }
+    console.log(date);
+    if(typeof store == 'string' && store != '') {
+      data.store = store
+    } else {
+      alert("please enter a valid store");
+      valid = false
+    }
+    if(typeof desc == 'string' && desc != ''){
+      data.description = desc
+    } else {
+      alert("please enter a valid description"); 
+      valid = false
+    }
+    if(!isNaN(amount) && amount != ''){ 
+      data.amount = amount
+    } else {
+      alert("please enter a valid amount");
+      valid = false
+    };
+    if(typeof category == 'string' && category != '') {
+      data.category = category
+    } else {
+      alert("please enter a valid category");
+      valid = false
+    };
+    
+    // Insert the data and clear the form.
+    if(valid == true) {
+      Expenses.insert(data);
+      $('.clear').val('');
+    }
+  }
+
+});
 
 
 

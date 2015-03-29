@@ -66,11 +66,11 @@
       </div>
       
     </td>
-		<td><input type='text' class="form-control clear required" id='store' placeholder="Store"></td>
-		<td><input type='text' class="form-control clear required" id='description' placeholder="Description"></td>
-		<td><div class="input-group"><div class="input-group-addon">$</div><input type="text" class="form-control clear required" id="amount" placeholder="Amount"></div></td>
+		<td><input type='text' class="form-control clear" id='store' placeholder="Store"></td>
+		<td><input type='text' class="form-control clear" id='description' placeholder="Description"></td>
+		<td><div class="input-group"><div class="input-group-addon">$</div><input type="number" class="form-control clear" id="amount" placeholder="Amount"></div></td>
 		<td><select class="form-control" id="category"><option>Spending</option><option>Food</option></select></td>
-		<td><button type="button" id="add-expense" class="btn btn-success" disabled="{{isNotValid}}" >Submit</button></td>
+		<td><button type="button" id="add-expense" class="btn btn-success">Submit</button></td>
 	</tr>
 
 </template>
