@@ -5,8 +5,8 @@ var monthTotal = [0.00, 0.00];
 var allTimeTotal = [0.00, 0.00];
 var thisWeekStart = moment().day(0).hour(0).minute(0).second(0).subtract(1, 'day'); //Should be one day before we want the dates to display
 var thisWeekEnd = moment().day(6).hour(0).minute(0).second(0);
-var thisMonthStart = moment().date(31).hour(0).minute(0).second(0).subtract(1, 'month'); //Should be one day before we want the dates to display
-var thisMonthEnd = moment().date(31).hour(0).minute(0).second(0);
+var thisMonthStart = moment().date(0).hour(0).minute(0).second(0);
+var thisMonthEnd = moment().date(30).hour(0).minute(0).second(0);
 var allTimeStart = moment("2000-01-01"); //Should be one day before we want the dates to display
 var allTimeEnd = moment("2100-01-01");
 var mode = "week";
@@ -83,6 +83,7 @@ if (Meteor.isClient) {
     ctx2 = document.getElementById("monthChart").getContext("2d");
     monthChart = new Chart(ctx2).Doughnut(chartData, chartOptions);
 
+    getExpenses(thisMonthStart, thisMonthEnd, "month") // Get the expenses for the month and plot that chart.
     getExpenses(thisPeriodStart, thisPeriodEnd) //get the expenses and update the graphs anytime the page is loaded.
 	}
 
@@ -187,7 +188,7 @@ if (Meteor.isClient) {
 
     "click #add-expense": function () {
       // Get all the data from the form and input into database.
-			var date = new Date(document.getElementById('datetimepicker6').value);
+			var date = new Date(document.getElementById('datetimepicker').value);
 			var store = document.getElementById('store').value;
 			var desc = document.getElementById('description').value;
       var amount = document.getElementById('amount').value;
@@ -247,7 +248,7 @@ if (Meteor.isClient) {
 
 
   //TODO, this can be refacotred becasue we know the mode and have all expenses from that mode.
-  var updateCharts = function (expenses) {
+  var updateCharts = function (expenses, mode) {
     total = Array.apply(null, new Array(budgetCategories.length)).map(Number.prototype.valueOf,0);
     Session.set("weekOverBudget", false);
     Session.set("monthOverBudget", false);
@@ -261,7 +262,7 @@ if (Meteor.isClient) {
       }
     }); 
 
-    //Update the Charts
+    // Update the week charts
     if(mode == "week") {
       if((total[0] + total[1]) > (weekBudgetSpending + weekBudgetFood)) {
         //Overbudget
@@ -278,6 +279,7 @@ console.log("week over budget");
       
       weekChart.update();
     } else {
+      // Update the month charts
       if((total[0] + total[1]) > (monthBudgetSpending + monthBudgetFood)) {
         //Overbudget
         monthChart.segments[0].value = total[0] / (total[0] + total[1]);
@@ -371,7 +373,8 @@ console.log("month over budget");
 
   // Gets expense from the database that are between the start Date and the end date. Dates must be JS.
   // Then it sets the current expenses for the session. Also sets the defualt date.
-  var getExpenses = function (startDate, endDate) {
+  // If a mode is given as argument, it will update the charts for that mode. Otherwise it will fall back on the globally defined mode.
+  var getExpenses = function (startDate, endDate, forceMode) {
     var expenses = [];
     var formattedExpenses = [];
 
@@ -388,7 +391,7 @@ console.log("month over budget");
     // Set the expenses
     Session.set("expenses", formattedExpenses);
     // Update the graphs
-    updateCharts(formattedExpenses);
+    updateCharts(formattedExpenses, forceMode || mode);
     // Set the defualt date in the datepicker
     Session.set("defaultDate", setDefaultDate(formattedExpenses));
 
