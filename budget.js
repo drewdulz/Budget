@@ -88,19 +88,15 @@ if (Meteor.isClient) {
 
   //Initialize the Datepicker
   Template.expenseInput.rendered = function() {
-    $('#datetimepicker6').datetimepicker({format: 'MMM D YYYY'});
+    $('#datetimepicker').datetimepicker({format: 'MMM D YYYY'});
   }
 
-  // Template.expenses.rendered = function() {
-  //   // Set the default date
-  // }
-  
 
   //-------------------------------------//
   //              Helpers                //
   //-------------------------------------//
   
-  Template.body.helpers({
+  Template.expensesGroup.helpers({
     expenses: function () {
       return Session.get("expenses");
     }
@@ -172,12 +168,13 @@ if (Meteor.isClient) {
   
   
   Template.expenseInput.events({
-    "blur #datetimepicker6": function () {
-      Session.set("defaultDate", moment($('#datetimepicker6').val()));
+    "blur #datetimepicker": function () {
+      Session.set("defaultDate", moment($('#datetimepicker').val()).format("MMM D YYYY"));
     },
 
 		"click #prev-day": function () {
       var currentDefault = Session.get("defaultDate");
+      console.log(currentDefault);
       currentDefault = moment(currentDefault, "MMM D YYYY").subtract(1,'day').format("MMM D YYYY");
       Session.set("defaultDate", currentDefault);
     },
