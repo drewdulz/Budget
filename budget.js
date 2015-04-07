@@ -33,6 +33,8 @@ var monthBudgetFood = (weekBudgetFood / 7) * thisMonthEnd.diff(thisMonthStart, '
 //Categories
 var budgetCategories = ["Spending", "Food"];
 
+var totals = [{name: "Spending"}, {name: "Food"}];
+
 var chartData = [
   {
       value: 0,
@@ -152,6 +154,12 @@ if (Meteor.isClient) {
     monthOverBudget: function() {
       return Session.get("monthOverBudget");
     },
+    weeklyTotals: function() {
+      return Session.get("weeklyTotals");
+    },
+    monthlyTotals: function() {
+      return Session.get("monthlyTotals");
+    },
 	});
   
   // Set the date input value to a default
@@ -262,8 +270,16 @@ if (Meteor.isClient) {
       }
     }); 
 
+    totals[0].amount = total[0];
+    totals[1].amount = total[1];
+    console.log(totals[0].amount);
+
+
+
     // Update the week charts
     if(mode == "week") {
+			Session.set("weeklyTotals", totals);
+
       if((total[0] + total[1]) > (weekBudgetSpending + weekBudgetFood)) {
         //Overbudget
         weekChart.segments[0].value = total[0] / (total[0] + total[1]);
@@ -279,6 +295,7 @@ console.log("week over budget");
       
       weekChart.update();
     } else {
+			Session.set("monthlyTotals", totals);
       // Update the month charts
       if((total[0] + total[1]) > (monthBudgetSpending + monthBudgetFood)) {
         //Overbudget

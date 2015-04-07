@@ -124,8 +124,9 @@
         </div>
         <div class="summary-box-content">
           <canvas id="weekChart" class="chart" width="100%" height="100%"></canvas>
-            <p>Spending: ${{weekSpending}}</p>
-            <p>Food: ${{weekFood}}</p>
+						{{#each weeklyTotals}}
+							{{> total}}
+						{{/each}}
         </div>
       </div>
     </div>
@@ -138,8 +139,9 @@
         </div>
         <div class="summary-box-content">
           <canvas id="monthChart" class="chart" width="100%" height="100%"></canvas>
-          <p>Spending: ${{monthSpending}}</p>
-          <p>Food: ${{monthFood}}</p>
+						{{#each monthlyTotals}}
+							{{> total}}
+						{{/each}}
         </div>
       </div>
     </div>
@@ -153,10 +155,11 @@
       </div>
     </div>
   </div>
-  
-  
 </template>
   
+<template name="total">
+	<p>{{name}}: ${{amount}}</p>
+</template>
 
 
 
