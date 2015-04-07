@@ -24,10 +24,10 @@
 				</thead>
 				<tbody>
 					{{> expenseInput}}
-					{{#each expenses}}
+          {{#each expenses}}
             {{> expense}}
-			    {{/each}}
-			    </tbody>
+          {{/each}}
+        </tbody>
 
 
 			</table>
@@ -38,7 +38,9 @@
   
 </body>
 
-
+  <!--/////////////////////////////////////
+  //              Templates              //
+  //////////////////////////////////////-->
 
 <template name="expense">
 	<tr>

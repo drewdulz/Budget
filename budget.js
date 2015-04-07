@@ -90,6 +90,10 @@ if (Meteor.isClient) {
   Template.expenseInput.rendered = function() {
     $('#datetimepicker6').datetimepicker({format: 'MMM D YYYY'});
   }
+
+  // Template.expenses.rendered = function() {
+  //   // Set the default date
+  // }
   
 
   //-------------------------------------//
@@ -357,20 +361,19 @@ console.log("month over budget");
       thisPeriodEnd = endDate;  
   }
   
-
-  var setDefaultDate = function() {
+  // Accepts a array of expenses and return the default date to use for those expenses
+  var setDefaultDate = function(expenses) {
+    // console.log(expenses.count())
     //Set the default input date
-    if(typeof periodExpenses[0] != 'undefined' || periodExpenses[0] != null) {
-      Session.set("defaultDate", periodExpenses[0].date);
-    } else if(mode == 'month'){
-      Session.set("defaultDate", thisPeriodStart.add(1, 'day').format("MMM D YYYY"));
+    if(typeof expenses[0] != 'undefined' || expenses[0] != null) {
+      return moment(expenses[0].date).format("MMM D YYYY");
     } else {
-      Session.set("defaultDate", thisPeriodStart.format("MMM D YYYY"));
+      return thisPeriodStart.add(1, 'day').format("MMM D YYYY");
     }
   }
 
   // Gets expense from the database that are between the start Date and the end date. Dates must be JS.
-  // Then it sets the current expenses for the session.
+  // Then it sets the current expenses for the session. Also sets the defualt date.
   var getExpenses = function (startDate, endDate) {
     var expenses = [];
     var formattedExpenses = [];
@@ -385,11 +388,13 @@ console.log("month over budget");
       expense.date = moment(expense.date).format("MMM D YYYY");
       formattedExpenses.push(expense);
     });
-
+    // Set the expenses
     Session.set("expenses", formattedExpenses);
-
-    //Update the graphs
+    // Update the graphs
     updateCharts(formattedExpenses);
+    // Set the defualt date in the datepicker
+    Session.set("defaultDate", setDefaultDate(formattedExpenses));
+
   }
 }
 
