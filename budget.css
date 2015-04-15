@@ -133,6 +133,10 @@ body {
 	color: #c62f29;
 }
 
+.warning-notificaiton {
+	color: #FF4E4E;
+}
+
 
 th {
 	text-align: center !important;

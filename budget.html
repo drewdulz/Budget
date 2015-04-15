@@ -116,7 +116,7 @@
   </div>
 
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-6">
       <div class="summary-box active thisWeek" id="weekBox">
         <div class="summary-box-top">
           <div class="summary-box-title">Weekly Expenses For:</div>
@@ -127,11 +127,15 @@
 						{{#each weeklyTotals}}
 							{{> total}}
 						{{/each}}
+            <!-- Overbudget notification -->
+            {{#if weekOverBudget}}
+              <p class="warning-notificaiton">Overbudget by ${{weekOverBudget}}</p>
+            {{/if}}
         </div>
       </div>
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-6">
       <div class="summary-box thisMonth" id="monthBox">
         <div class="summary-box-top">
           <div class="summary-box-title">Monthly Expenses For:</div>
@@ -142,18 +146,23 @@
 						{{#each monthlyTotals}}
 							{{> total}}
 						{{/each}}
+            <!-- Overbudget notification -->
+            {{#if monthOverBudget}}
+              <p class="warning-notificaiton">Overbudget by ${{monthOverBudget}}</p>
+            {{/if}}
+
         </div>
       </div>
     </div>
 
-    <div class="col-sm-4">
+<!--     <div class="col-sm-4">
       <div class="summary-box" id="allTimeBox">
         <div class="summary-box-top"><div class="summary-box-title">All-Time Spending</div></div>
         <div class="summary-box-content">
       
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
   

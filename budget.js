@@ -255,8 +255,6 @@ if (Meteor.isClient) {
   //TODO, this can be refacotred becasue we know the mode and have all expenses from that mode.
   var updateCharts = function (expenses, mode) {
     total = Array.apply(null, new Array(budgetCategories.length)).map(Number.prototype.valueOf,0);
-    Session.set("weekOverBudget", false);
-    Session.set("monthOverBudget", false);
 
     //Look at the current mode and go through each expense and classify it, then update the graph for that mode.
     expenses.forEach(function(expense) {
@@ -269,12 +267,10 @@ if (Meteor.isClient) {
 
     totals[0].amount = total[0];
     totals[1].amount = total[1];
-    console.log(totals[0].amount);
-
-
 
     // Update the week charts
     if(mode == "week") {
+      Session.set("weekOverBudget", false);
 			Session.set("weeklyTotals", totals);
 
       if((total[0] + total[1]) > (weekBudgetSpending + weekBudgetFood)) {
@@ -282,8 +278,8 @@ if (Meteor.isClient) {
         weekChart.segments[0].value = total[0] / (total[0] + total[1]);
         weekChart.segments[1].value = total[1] / (total[0] + total[1]);
         weekChart.segments[2].value = 0;
-        Session.set("weekOverBudget", true);
-console.log("week over budget");
+        Session.set("weekOverBudget", total[0] + total[1] - weekBudgetSpending - weekBudgetFood);
+
       } else {
         weekChart.segments[0].value = total[0];
         weekChart.segments[1].value = total[1];
@@ -292,6 +288,7 @@ console.log("week over budget");
       
       weekChart.update();
     } else {
+      Session.set("monthOverBudget", false);
 			Session.set("monthlyTotals", totals);
       // Update the month charts
       if((total[0] + total[1]) > (monthBudgetSpending + monthBudgetFood)) {
@@ -299,8 +296,8 @@ console.log("week over budget");
         monthChart.segments[0].value = total[0] / (total[0] + total[1]);
         monthChart.segments[1].value = total[1] / (total[0] + total[1]);
         monthChart.segments[2].value = 0;
-        Session.set("monthOverBudget", true);
-console.log("month over budget");
+        Session.set("monthOverBudget", total[0] + total[1] - monthBudgetSpending - monthBudgetFood);
+
       } else {
         monthChart.segments[0].value = total[0];
         monthChart.segments[1].value = total[1];
@@ -384,8 +381,6 @@ console.log("month over budget");
     var formattedExpenses = [];
 
     // Set the dates to be JS date format.
-    // startDate = startDate
-    // endDate = endDate.toDate()
     expenses = Expenses.find({ date: { $gte:startDate, $lte:endDate } }, {sort: {date: -1}});
 
     //Format the dates nicely.
@@ -410,6 +405,7 @@ console.log("month over budget");
 Meteor.methods({
   deleteExpense: function (expenseId) {
     Expenses.remove(expenseId);
+    getExpenses(thisPeriodStart, thisPeriodEnd);
   },
 
   // Adds an expense to the database. Returns true if added successfully, and false if there are issues.
