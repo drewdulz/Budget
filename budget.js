@@ -6,7 +6,7 @@ var allTimeTotal = [0.00, 0.00];
 var thisWeekStart = Date.today().last().sunday(); //Should be one day before we want the dates to display
 var thisWeekEnd = Date.today().saturday();
 var thisMonthStart = Date.today().moveToFirstDayOfMonth();
-var thisMonthEnd = Date.today().moveToLastDayOfMonth(); // TODO: switch to date.js
+var thisMonthEnd = Date.today().moveToLastDayOfMonth(); 
 var mode = "week";
 var weekChange; var monthChange;
 
@@ -25,8 +25,8 @@ var remainingColor = "#B4B4B4";
 //Budget Values
 var weekBudgetSpending = 50.00;
 var weekBudgetFood = 100.00;
-var monthBudgetSpending = (weekBudgetSpending / 7) * Date.getDaysInMonth(2015,1); // TODO: make this according to current month
-var monthBudgetFood = (weekBudgetFood / 7) * Date.getDaysInMonth(2015,1);
+var monthBudgetSpending = (weekBudgetSpending / 7) * Date.getDaysInMonth(thisMonthStart.getYear(),thisMonthStart.getMonth()); // TODO: make this according to current month
+var monthBudgetFood = (weekBudgetFood / 7) * Date.getDaysInMonth(thisMonthStart.getYear(),thisMonthStart.getMonth());
 
 //Categories
 var budgetCategories = ["Spending", "Food"];
@@ -89,7 +89,7 @@ if (Meteor.isClient) {
 
   //Initialize the Datepicker
   Template.expenseInput.rendered = function() {
-    $('#datetimepicker').datetimepicker({format: 'MMM D YYYY'});
+    $('#datetimepicker').datetimepicker({format: "ddd MMM DD"});
   }
 
 
@@ -176,19 +176,19 @@ if (Meteor.isClient) {
   
   Template.expenseInput.events({
     "blur #datetimepicker": function () {
-      Session.set("defaultDate", $('#datetimepicker').val().toString("d-MMM-yyyy"));
+      Session.set("defaultDate", $('#datetimepicker').val().toString("ddd MMM dd"));
     },
 
 		"click #prev-day": function () {
       var currentDefault = Session.get("defaultDate");
-      currentDefault = currentDefault.addDays(-1);
-      Session.set("defaultDate", currentDefault);
+      currentDefault = Date.parse(currentDefault).addDays(-1);
+      Session.set("defaultDate", currentDefault.toString("ddd MMM dd"));
     },
 
     "click #next-day": function () {
       var currentDefault = Session.get("defaultDate");
-      currentDefault = currentDefault.addDays(1);
-      Session.set("defaultDate", currentDefault);
+      currentDefault = Date.parse(currentDefault).addDays(1);
+      Session.set("defaultDate", currentDefault.toString("ddd MMM dd"));
     },
 
     "click #add-expense": function () {
@@ -317,20 +317,19 @@ console.log("month over budget");
   };
   
   var setTitleDates = function() {
-    //If the time period is a month, then we need to add a day to make it display properly.
     // Month
     if( mode == "month") {
-      Session.set("periodStart", thisPeriodStart);
-      Session.set("periodEnd", thisPeriodEnd);
+      Session.set("periodStart", thisPeriodStart.toString("ddd MMM dd, yyyy"));
+      Session.set("periodEnd", thisPeriodEnd.toString("ddd MMM dd, yyyy"));
     // Week
     } else {
-      Session.set("periodStart", thisWeekStart);
-      Session.set("periodEnd", thisPeriodEnd);
+      Session.set("periodStart", thisWeekStart.toString("ddd MMM dd, yyyy"));
+      Session.set("periodEnd", thisPeriodEnd.toString("ddd MMM dd, yyyy"));
     }
-    Session.set("thisWeekStart", thisWeekStart);
-    Session.set("thisWeekEnd", thisWeekEnd);
-    Session.set("thisMonthStart", thisMonthStart);
-    Session.set("thisMonthEnd", thisMonthEnd);
+    Session.set("thisWeekStart", thisWeekStart.toString("ddd MMM dd, yyyy"));
+    Session.set("thisWeekEnd", thisWeekEnd.toString("ddd MMM dd, yyyy"));
+    Session.set("thisMonthStart", thisMonthStart.toString("ddd MMM dd, yyyy"));
+    Session.set("thisMonthEnd", thisMonthEnd.toString("ddd MMM dd, yyyy"));
   };
   
   //Takes in the direction of where we want to go, and depending if we are looking at weeks or months it changes the current period
@@ -343,7 +342,7 @@ console.log("month over budget");
         setCurrentPeriod(thisWeekStart, thisWeekEnd);
       } else {
         thisMonthStart = thisMonthStart.addMonths(1);
-        thisMonthEnd = thisMonthEnd.addMonths(1);
+        thisMonthEnd = thisMonthEnd.addMonths(1).moveToLastDayOfMonth();
         setCurrentPeriod(thisMonthStart, thisMonthEnd);
       }
     } else {
@@ -353,7 +352,7 @@ console.log("month over budget");
         setCurrentPeriod(thisWeekStart, thisWeekEnd);
       } else {
         thisMonthStart = thisMonthStart.addMonths(-1);
-        thisMonthEnd = thisMonthEnd.addMonths(-1);
+        thisMonthEnd = thisMonthEnd.addMonths(-1).moveToLastDayOfMonth();
         setCurrentPeriod(thisMonthStart, thisMonthEnd);
       }
     }
@@ -371,9 +370,9 @@ console.log("month over budget");
     // console.log(expenses.count())
     //Set the default input date
     if(typeof expenses[0] != 'undefined' || expenses[0] != null) {
-      return expenses[0].date;
+      return expenses[0].date.toString("ddd MMM dd");
     } else {
-      return thisPeriodStart;
+      return thisPeriodStart.toString("ddd MMM dd");
     }
   }
 
@@ -391,7 +390,7 @@ console.log("month over budget");
 
     //Format the dates nicely.
     expenses.forEach(function(expense) {
-      // expense.date = moment(expense.date).format("MMM D YYYY");
+      expense.date = expense.date.toString("ddd MMM dd, yyyy");
       formattedExpenses.push(expense);
     });
     // Set the expenses
