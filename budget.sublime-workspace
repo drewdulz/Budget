@@ -1,0 +1,1084 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"this",
+				"thisMonthEnd"
+			],
+			[
+				"thi",
+				"thisPeriodStart"
+			],
+			[
+				"curren",
+				"currentDefault"
+			],
+			[
+				"margin",
+				"margin"
+			],
+			[
+				"type",
+				"typeof"
+			],
+			[
+				"sea",
+				"searchConfig"
+			],
+			[
+				"ac",
+				"academy"
+			],
+			[
+				"ta",
+				"table-message"
+			],
+			[
+				"back",
+				"background-position"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"quer",
+				"queryString"
+			],
+			[
+				"sear",
+				"searchValue"
+			],
+			[
+				"pree",
+				"preventDefault"
+			],
+			[
+				"sub",
+				"submitForm"
+			],
+			[
+				"chatter",
+				"chatterSearch"
+			],
+			[
+				"A",
+				"AccountPortfolioID"
+			],
+			[
+				"tot",
+				"totalResults"
+			],
+			[
+				"Tot",
+				"TotalEntries"
+			],
+			[
+				"link",
+				"linkSuffix"
+			],
+			[
+				"lin",
+				"linkSuffix"
+			],
+			[
+				"resul",
+				"resultsPerPage"
+			],
+			[
+				"Accou",
+				"AccountPortfolioName"
+			],
+			[
+				"page",
+				"pageNum"
+			],
+			[
+				"Key",
+				"KeyscanStatus"
+			],
+			[
+				"Ti",
+				"Title"
+			],
+			[
+				"Jo",
+				"JobType"
+			],
+			[
+				"Mobi",
+				"MobileNumber"
+			],
+			[
+				"Pro",
+				"ProjectID"
+			],
+			[
+				"assigned",
+				"AssignedTo"
+			],
+			[
+				"Ass",
+				"AssignedTo"
+			],
+			[
+				"dis",
+				"disableSearch"
+			],
+			[
+				"current",
+				"currentResults"
+			],
+			[
+				"gr",
+				"gridsWidgetController"
+			],
+			[
+				"portf",
+				"portfolios"
+			],
+			[
+				"summa",
+				"summary-results-section"
+			],
+			[
+				"re",
+				"redraw"
+			],
+			[
+				"marg",
+				"margin-right"
+			],
+			[
+				"search",
+				"searchTerm"
+			],
+			[
+				"load",
+				"LoadTab"
+			],
+			[
+				"fomr",
+				"form"
+			],
+			[
+				"all",
+				"allSearches"
+			],
+			[
+				"a",
+				"academy"
+			],
+			[
+				"show",
+				"showTab"
+			],
+			[
+				"pro",
+				"projects"
+			],
+			[
+				"mapSea",
+				"mapSearchValue"
+			],
+			[
+				"on",
+				"onchange"
+			],
+			[
+				"seatingMapID",
+				"SeatingMapID"
+			],
+			[
+				"Sea",
+				"seatingMap"
+			],
+			[
+				"Seating",
+				"seatingMapID"
+			],
+			[
+				"mapTo",
+				"mapToLoad"
+			],
+			[
+				"Seatin",
+				"seatingMapID"
+			],
+			[
+				"icon",
+				"iconHeight"
+			],
+			[
+				"cli",
+				"clientX"
+			],
+			[
+				"clien",
+				"clientY"
+			],
+			[
+				"offse",
+				"offsetX"
+			],
+			[
+				"mapCon",
+				"mapContainerRight"
+			],
+			[
+				"un",
+				"unplacedUsersToDisplay"
+			],
+			[
+				"seatin",
+				"seatingLocationsForCurrentMap"
+			],
+			[
+				"seating",
+				"seatingLocationsForCurrentMap"
+			],
+			[
+				"plot",
+				"plotPins"
+			],
+			[
+				"unpl",
+				"unplacedUsers"
+			],
+			[
+				"mar",
+				"markerClick"
+			],
+			[
+				"onmou",
+				"onmousedown"
+			],
+			[
+				"con",
+				"config"
+			],
+			[
+				"notif",
+				"notificationClass"
+			],
+			[
+				"al",
+				"alert-success"
+			],
+			[
+				"unplac",
+				"unplaced-user"
+			],
+			[
+				"font",
+				"font-weight"
+			],
+			[
+				"curre",
+				"currentMap"
+			],
+			[
+				"start",
+				"startDate"
+			],
+			[
+				"spending",
+				"Spending"
+			],
+			[
+				"to",
+				"totals"
+			],
+			[
+				"expen",
+				"expensesGroup"
+			],
+			[
+				"expene",
+				"expenses"
+			],
+			[
+				"for",
+				"formattedExpenses"
+			],
+			[
+				"set",
+				"setDefaultDate"
+			],
+			[
+				"def",
+				"defaultDate"
+			],
+			[
+				"collap",
+				"collapsed"
+			],
+			[
+				"aria",
+				"aria-controls"
+			],
+			[
+				"legend",
+				"legendCollapse"
+			],
+			[
+				"mapcon",
+				"MAPCONTAINERWIDTH"
+			],
+			[
+				"deleteM",
+				"deleteMarker"
+			],
+			[
+				"curr",
+				"currentMapName"
+			],
+			[
+				"map",
+				"mapId"
+			],
+			[
+				"Map",
+				"MapAttachmentID"
+			],
+			[
+				"MAP",
+				"MAPCONTAINERHEIGHT"
+			],
+			[
+				"Ma",
+				"MAPCONTAINERHEIGHT"
+			],
+			[
+				"seatingLocationsTo",
+				"seatingLocationsForCurrentMap"
+			],
+			[
+				"window",
+				"windowHeight"
+			],
+			[
+				"las",
+				"lastMovedMarker"
+			],
+			[
+				"seatingMpa",
+				"SeatingMapLocationID"
+			],
+			[
+				"trahs",
+				"trashcanConfig"
+			],
+			[
+				"tras",
+				"trashcanConfig"
+			],
+			[
+				"with",
+				"withAttr"
+			],
+			[
+				"place",
+				"placeholder"
+			],
+			[
+				"alert",
+				"alert-success"
+			],
+			[
+				"form",
+				"form-group"
+			],
+			[
+				"collaps",
+				"collapseOne"
+			],
+			[
+				"off",
+				"offsetType"
+			],
+			[
+				"getAll",
+				"getAllCurrentUsersPromises"
+			],
+			[
+				"getAl",
+				"getAllCurrentUsersPromises"
+			],
+			[
+				"num",
+				"numArrays"
+			],
+			[
+				"offs",
+				"offsetY"
+			],
+			[
+				"move",
+				"moveUnplacedUsers"
+			],
+			[
+				"user",
+				"userSearchResults"
+			],
+			[
+				"unpla",
+				"unplacedUsers"
+			],
+			[
+				"consoel",
+				"console"
+			],
+			[
+				"SeatingMap",
+				"SeatingMapID"
+			],
+			[
+				"Ue",
+				"UserID"
+			],
+			[
+				"allSeating",
+				"allSeatingLocations"
+			],
+			[
+				"allSea",
+				"allSeatingLocations"
+			],
+			[
+				"new",
+				"newYCoord"
+			],
+			[
+				"newMark",
+				"newMarkerY"
+			],
+			[
+				"pl",
+				"plotPins"
+			],
+			[
+				"ic",
+				"iconHeight"
+			],
+			[
+				"marker",
+				"markerClickDrag"
+			],
+			[
+				"va",
+				"value"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"sel",
+				"selected"
+			],
+			[
+				"st",
+				"status"
+			],
+			[
+				"F",
+				"FLOOR_COLORS"
+			],
+			[
+				"User",
+				"UserID"
+			],
+			[
+				"get",
+				"getLocations"
+			],
+			[
+				"upda",
+				"updateCharts"
+			],
+			[
+				"udate",
+				"updateGraphs"
+			],
+			[
+				"bud",
+				"budgetCategories"
+			],
+			[
+				"thisWee",
+				"thisWeekEnd"
+			],
+			[
+				"end",
+				"endDate"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "budget.css",
+			"settings":
+			{
+				"buffer_size": 2259,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "budget.html",
+			"settings":
+			{
+				"buffer_size": 5934,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "README.md",
+			"settings":
+			{
+				"buffer_size": 1308,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "budget.js",
+			"settings":
+			{
+				"buffer_size": 14463,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"PACKA",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"prefe",
+				"Preferences: Settings - User"
+			]
+		],
+		"width": 575.0
+	},
+	"console":
+	{
+		"height": 146.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/www/genome-mithril-template/layout/global/search.js",
+		"/www/genome-mithril-template/layout/global/layout.js",
+		"/www/genome-mithril-template/layout/global/search.css",
+		"/www/genome-mithril-template/layout/chatterSearch/chatterSearch.js",
+		"/www/genome-mithril-template/layout/quickSearch.js",
+		"/www/genome-mithril-template/layout/global/lib/resource.js",
+		"/www/genome-mithril-template/layout/global/dynamicContent.js",
+		"/www/genome-mithril-template/layout/gridsWidget/gridsWidget.gridView.js",
+		"/www/genome-mithril-template/layout/global/chatter.js",
+		"/www/genome-mithril-template/layout/Model.js",
+		"/www/genome-mithril-template/layout/index.html",
+		"/www/genome-mithril-template/layout/global/topBar.js",
+		"/www/genome-mithril-template/layout/global/helpNotification.js",
+		"/www/genome-mithril-template/layout/global/notifications.js",
+		"/Users/awarkentin/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/www/genome-mithril-template/layout/gridsWidget/gridsWidget.js",
+		"/www/genome-mithril-template/layout/quickSearch.css",
+		"/www/genome-mithril-template/searchResults.js",
+		"/www/genome-mithril-template/layout/searchResults.js",
+		"/www/genome-mithril-template/grids.searchresults.js",
+		"/www/genome-mithril-template/layout/seating-map.css",
+		"/www/genome-mithril-template/layout/seatingMap.js",
+		"/www/genome-mithril-template/layout/global/quicksilver.js",
+		"/www/genome-mithril-template/layout/global/baseballcard.js",
+		"/www/genome-mithril-template/layout/global/lib/model.js",
+		"/www/genome-mithril-template/layout/global/baseballcard.css",
+		"/www/budget/budget.html",
+		"/www/budget/budget.js",
+		"/www/budget/budget.css",
+		"/www/genome-mithril-template/layout/chatterSearch.js",
+		"/www/genome-mithril-template/layout/chatter-search.css",
+		"/www/genome-mithril-template/layout/chatterFORREFERENCEPLEASEDELETE.css",
+		"/www/genome-mithril-template/layout/chatterFORREFERENCEPLEASEDELETE.js",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/home/_form.cshtml",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Content/css/styles/interior.scss",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Content/css/styles/form.scss",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/App_Start/BundleConfig.cs",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Crmtest.csproj",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/Shared/_Layout.cshtml",
+		"/www/genome-mithril-template/layout/myModule.js",
+		"/www/genome-mithril-template/index.html",
+		"/www/genome-mithril-template/layout/global/quickSearch.css",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Content/css/styles/ctas.scss",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Content/css/styles/homepage.scss",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/home/Unsubscribe.cshtml",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/home/UnsubscribeThankyou.cshtml",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/home/ThankYou.cshtml",
+		"/Users/awarkentin/Desktop/crm-test.sublime-workspace",
+		"/www/genome-mithril-template/layout/global/ticketModal.js",
+		"/www/genome-mithril-template/layout/global/chatter.css",
+		"/Volumes/C/dev/solesta-mvc/Solesta/Content/scripts/main.js",
+		"/Volumes/C/dev/solesta-mvc/Solesta/Content/css/main.scss",
+		"/Volumes/C/dev/solesta-mvc/Solesta/Content/css/lib/bootstrap-3.2.0.css",
+		"/Volumes/C/dev/solesta-mvc/Solesta/Content/css/base.scss",
+		"/Volumes/C/dev/solesta-mvc/Solesta/Content/css/footer.scss",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Content/css/main.css",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Content/js/main.js",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Content/fonts/fontawesome-webfont.svg",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/Shared/_nav.cshtml",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/Shared/_modal.cshtml",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Scripts/salix.validation.js",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Controllers/HomeController.cs",
+		"/Users/awarkentin/Desktop/crm-test.sublime-project",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Content/css/styles/nav.scss",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/home/_learn_more.cshtml",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/home/_stay_informed2.cshtml",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/home/_get_started.cshtml",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/Shared/_homePageHeader.cshtml",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/home/PressRelease.cshtml",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/home/StayInformed.cshtml",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/Shared/_header.cshtml",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/home/Index.cshtml",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Content/css/main.scss",
+		"/www/waste-sorting-abdul/views/info.html",
+		"/www/waste-sorting-abdul/views/home.html",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/home/Page.cshtml",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Content/css/styles/header.scss",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Views/home/GettingStarted.cshtml",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/package.json",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/packages.config",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Service References/KlickRmPlatformSurvey/Survey.wsdl",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/App_Start/ApplicationModule.cs",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Content/css/bourbon/settings/_asset-pipeline.scss",
+		"/Volumes/C/dev/klick-crm-platform-demo/packages/Microsoft.AspNet.WebApi.Client.4.0.20710.0/Microsoft.AspNet.WebApi.Client.4.0.20710.0.nupkg",
+		"/Volumes/C/dev/klick-crm-platform-demo/packages/Microsoft.AspNet.WebPages.2.0.20710.0/lib/net40/System.Web.WebPages.xml",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/tools/Auth_SqlSchema.sql",
+		"/Volumes/C/dev/klick-crm-platform-demo/packages/Microsoft.AspNet.Providers.Core.1.1/Microsoft.AspNet.Providers.Core.1.1.nupkg",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest.Tests/App.config",
+		"/Volumes/C/dev/klick-crm-platform-demo/build.bat",
+		"/Volumes/C/dev/klick-crm-platform-demo/packages/Klick.Mvc.1.1.4.1/content/Views/Account/Controller.cs.pp",
+		"/Volumes/C/dev/klick-crm-platform-demo/packages/Microsoft.jQuery.Unobtrusive.Ajax.2.0.30506.0/Content/Scripts/jquery.unobtrusive-ajax.js",
+		"/Volumes/C/dev/klick-crm-platform-demo/packages/Microsoft.jQuery.Unobtrusive.Ajax.2.0.30506.0/Microsoft.jQuery.Unobtrusive.Ajax.2.0.30506.0.nupkg",
+		"/Volumes/C/dev/klick-crm-platform-demo/packages/Klick.Cms.1.1.11.7/content/Areas/Manager/Content/Js/Ext/Tiny_mce/plugins/moxiemanager/examples.html",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest.sln",
+		"/Volumes/C/dev/klick-crm-platform-demo/Crmtest/Service References/KlickRmPlatformAnonymousUser/configuration.svcinfo",
+		"/Volumes/C/dev/klick-crm-platform-demo/packages/jQuery.1.7.1.1/Tools/common.ps1",
+		"/Users/awarkentin/Desktop/chatterTest.html",
+		"/Users/awarkentin/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"/www/genome-mithril-template/layout",
+			"/www/genome-mithril-template/layout/global",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"overbudg",
+			"getExpen",
+			"moment",
+			"link",
+			"float",
+			"Project",
+			"vm.tasks.totalResults",
+			"vm.ticketTotalResults",
+			"vm.ticketSearchResults",
+			"vm.people.totalResults",
+			"vm.userTotalResults",
+			"vm.fileSearchResults",
+			"vm.academySearchResults",
+			"vm.divisionSearchResults",
+			"vm.portfolioSearchResults",
+			"vm.projectSearchResults",
+			"vm.ticketSearchResults",
+			"ticketSearchResults",
+			"vm.people.data",
+			"vm.userSearchResults",
+			"vmuserSearchResults",
+			"userSearchResults",
+			"checkloadstatus",
+			"configure",
+			"cons",
+			"conso",
+			"current_user",
+			"Chatter.getById",
+			"cons",
+			"onsubmi",
+			"PhotoPath",
+			"/local-instance",
+			"local",
+			"src=/local",
+			"/local",
+			"/login/",
+			"qui",
+			"<<",
+			"seach",
+			"bind",
+			"img",
+			"currentTab",
+			"TABS",
+			"tabs",
+			"TABS",
+			"word-wr",
+			"quicksearch",
+			"ticket",
+			"showTab",
+			", data: []",
+			"loadTa",
+			"loadTab",
+			"showTab",
+			"alert",
+			"unplacedUser",
+			"BACKGROUND",
+			"#mapContainer",
+			"vm.loadM",
+			"seatingMapID",
+			"seaingMapID",
+			"mapSele",
+			"mapChange",
+			"unplacedUser",
+			"mapLeft",
+			"vm.mapLeft",
+			"unplacedUser",
+			"miniMap",
+			"backgro",
+			"positionMap",
+			"position",
+			"scaledmapOff",
+			"jquery",
+			"addNewMa",
+			"mapDra",
+			"vm.mapContainer",
+			"mapTop",
+			"mapTop()",
+			"vm.mapContainerRight",
+			"mapdrag",
+			"console",
+			"console.log",
+			"zoom",
+			"findunpl",
+			"unplacedUsers",
+			"findunpla",
+			"addnewMar",
+			"addnewMaa",
+			"dropunpl",
+			"findun",
+			"funuunpla",
+			"plotPins",
+			"findunplacedUsers",
+			"todo",
+			"addnewMark",
+			"dropunpl",
+			"vm.out",
+			"seatingLocationsToDis",
+			"getLocationsAgain",
+			"getLocationsAga",
+			"seatingLocationsToDis",
+			"seatingLocationsTo",
+			"plotpins",
+			"plotPins",
+			"getLocationsAga",
+			"getLocationsAgi",
+			"getLocationsAgin",
+			"unplacedUSer",
+			"deletemark",
+			"notificati",
+			"markerDrag",
+			"config",
+			"baseballCard",
+			"onclick",
+			"config",
+			"unplaceduser",
+			"addNewMa",
+			"dropUnplac",
+			".css",
+			"bind",
+			"vm.markerCli",
+			"bind",
+			"unplaced",
+			"bind",
+			"addnewMar",
+			"addnewMak",
+			"bind",
+			"user",
+			"unplacedUsers"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"vm.people.totalResults",
+			"vm.files.data",
+			"vm.academy.data",
+			"vm.divisions.data",
+			"vm.portfolios.data",
+			"vm.projects.data",
+			"vm.tasks.data",
+			"vm.people.data",
+			"src=http://genome.klick.com/local",
+			"fullsearch",
+			"chatterSearch",
+			"chatterSearchchatterSearch",
+			"chatterSearch"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "budget.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2259,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1868,
+								1868
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 2032.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "budget.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5934,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4829,
+								4829
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2026.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "README.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1308,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "budget.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14463,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8712,
+								8712
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4581.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "budget.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"build.bat"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 277.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

@@ -89,7 +89,7 @@ if (Meteor.isClient) {
 
   //Initialize the Datepicker
   Template.expenseInput.rendered = function() {
-    $('#datetimepicker').datetimepicker({format: "ddd MMM DD"});
+    $('#datetimepicker').datetimepicker({format: "ddd MMM DD yyyy"});
   }
 
 
@@ -176,19 +176,20 @@ if (Meteor.isClient) {
   
   Template.expenseInput.events({
     "blur #datetimepicker": function () {
-      Session.set("defaultDate", $('#datetimepicker').val().toString("ddd MMM dd"));
+      Session.set("defaultDate", $('#datetimepicker').val().toString("ddd MMM dd yyyy"));
+      console.log($('#datetimepicker').val().toString("ddd MMM dd yyyy"));
     },
 
 		"click #prev-day": function () {
       var currentDefault = Session.get("defaultDate");
       currentDefault = Date.parse(currentDefault).addDays(-1);
-      Session.set("defaultDate", currentDefault.toString("ddd MMM dd"));
+      Session.set("defaultDate", currentDefault.toString("ddd MMM dd yyyy"));
     },
 
     "click #next-day": function () {
       var currentDefault = Session.get("defaultDate");
       currentDefault = Date.parse(currentDefault).addDays(1);
-      Session.set("defaultDate", currentDefault.toString("ddd MMM dd"));
+      Session.set("defaultDate", currentDefault.toString("ddd MMM dd yyyy"));
     },
 
     "click #add-expense": function () {
@@ -367,9 +368,9 @@ if (Meteor.isClient) {
     // console.log(expenses.count())
     //Set the default input date
     if(typeof expenses[0] != 'undefined' || expenses[0] != null) {
-      return expenses[0].date.toString("ddd MMM dd");
+      return expenses[0].date.toString("ddd MMM dd yyyy");
     } else {
-      return thisPeriodStart.toString("ddd MMM dd");
+      return thisPeriodStart.toString("ddd MMM dd yyyy");
     }
   }
 
@@ -412,36 +413,39 @@ Meteor.methods({
   addExpense: function (date, store, desc, amount, category) {
     var data = {};
     var valid = true;
+    console.log(date);
+    console.log(Date.today());
+    console.log(date === Date.today());
     //Validate the data
     if(date instanceof Date && date != '') { 
-      data.date = date
+      data.date = date;
     } else {
       alert("please enter a valid date");
-      valid = false
+      valid = false;
     }
     if(typeof store == 'string' && store != '') {
-      data.store = store
+      data.store = store;
     } else {
       alert("please enter a valid store");
-      valid = false
+      valid = false;
     }
     if(typeof desc == 'string' && desc != ''){
-      data.description = desc
+      data.description = desc;
     } else {
       alert("please enter a valid description"); 
-      valid = false
+      valid = false;
     }
     if(!isNaN(amount) && amount != ''){ 
-      data.amount = amount
+      data.amount = amount;
     } else {
       alert("please enter a valid amount");
-      valid = false
+      valid = false;
     };
     if(typeof category == 'string' && category != '') {
-      data.category = category
+      data.category = category;
     } else {
       alert("please enter a valid category");
-      valid = false
+      valid = false;
     };
     
     // Insert the data and clear the form.
