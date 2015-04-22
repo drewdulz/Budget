@@ -89,7 +89,7 @@ if (Meteor.isClient) {
 
   //Initialize the Datepicker
   Template.expenseInput.rendered = function() {
-    $('#datetimepicker').datetimepicker({format: "ddd MMM DD yyyy"});
+    $('#datetimepicker').datetimepicker({format: "ddd MMM DD YYYY"});
   }
 
 
@@ -176,8 +176,7 @@ if (Meteor.isClient) {
   
   Template.expenseInput.events({
     "blur #datetimepicker": function () {
-      Session.set("defaultDate", $('#datetimepicker').val().toString("ddd MMM dd yyyy"));
-      console.log($('#datetimepicker').val().toString("ddd MMM dd yyyy"));
+      Session.set("defaultDate", $('#datetimepicker').val().toString("ddd MMM dd YYYY"));
     },
 
 		"click #prev-day": function () {
@@ -365,7 +364,6 @@ if (Meteor.isClient) {
   
   // Accepts a array of expenses and return the default date to use for those expenses
   var setDefaultDate = function(expenses) {
-    // console.log(expenses.count())
     //Set the default input date
     if(typeof expenses[0] != 'undefined' || expenses[0] != null) {
       return expenses[0].date.toString("ddd MMM dd yyyy");
@@ -386,7 +384,7 @@ if (Meteor.isClient) {
 
     //Format the dates nicely.
     expenses.forEach(function(expense) {
-      expense.date = expense.date.toString("ddd MMM dd, yyyy");
+      expense.date = expense.date.toString("ddd MMM dd yyyy");
       formattedExpenses.push(expense);
     });
     // Set the expenses
@@ -413,9 +411,7 @@ Meteor.methods({
   addExpense: function (date, store, desc, amount, category) {
     var data = {};
     var valid = true;
-    console.log(date);
-    console.log(Date.today());
-    console.log(date === Date.today());
+
     //Validate the data
     if(date instanceof Date && date != '') { 
       data.date = date;
