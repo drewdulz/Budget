@@ -379,8 +379,21 @@ if (Meteor.isClient) {
     var expenses = [];
     var formattedExpenses = [];
 
-    // Set the dates to be JS date format.
-    expenses = Expenses.find({ date: { $gte:startDate, $lte:endDate } }, {sort: {date: -1}});
+
+    
+    if(mode == "week") {
+      // Update the month chart
+      var monthExpenses = Expenses.find({ date: { $gte:thisMonthStart, $lte:thisMonthEnd } }, {sort: {date: -1}});
+      updateCharts(monthExpenses, "month");
+
+      expenses = Expenses.find({ date: { $gte:thisWeekStart, $lte:thisWeekEnd } }, {sort: {date: -1}});
+    } else {
+      // Update the week chart
+      var weekExpenses = Expenses.find({ date: { $gte:thisWeekStart, $lte:thisWeekEnd } }, {sort: {date: -1}});
+      updateCharts(weekExpenses, "week");
+
+      expenses = Expenses.find({ date: { $gte:thisMonthStart, $lte:thisMonthEnd } }, {sort: {date: -1}});
+    }
 
     //Format the dates nicely.
     expenses.forEach(function(expense) {
