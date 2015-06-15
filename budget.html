@@ -1,18 +1,13 @@
 <head>
   <title>Drew's Budget</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
   <!-- Badass google font -->
   <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
-
-
 </head>
 
 <body>
 	<div class="container-fluid">
-    
-    {{> budgetSummary}}
-
+		{{> budgetSummary}}
 		<div class="table-section">
 			<table class="table table-hover table-responsive">
 				<thead>
@@ -27,10 +22,8 @@
 				</thead>
 				<tbody>
 					{{> expenseInput}}
-					{{#each expenses}}
-				        {{> expense}}
-				    {{/each}}
-			    </tbody>
+					{{> expensesGroup}}
+				</tbody>
 
 
 			</table>
@@ -41,6 +34,14 @@
   
 </body>
 
+  <!--/////////////////////////////////////
+  //              Templates              //
+  //////////////////////////////////////-->
+<template name="expensesGroup">
+	{{#each expenses}}
+		{{> expense}}
+	{{/each}}
+</template>
 
 
 <template name="expense">
@@ -50,40 +51,51 @@
 		<td>{{description}}</td>
 		<td>${{amount}}</td>
 		<td>{{category}}</td>
-		<td><span class="glyphicon glyphicon-remove-circle delete-button" aria-hidden="true"></span></td>
+		<td><div class="delete-button">x</div></td>
 	</tr>
-
 </template>
 
 <template name="expenseInput">
 	<tr>
-		<td><input type='text' class="form-control" id='datetimepicker6' placeholder="Date" value="{{defaultDate}}"></td>
-		<td><input type='text' class="form-control" id='store' placeholder="Store"></td>
-		<td><input type='text' class="form-control" id='description' placeholder="Description"></td>
-		<td><div class="input-group"><div class="input-group-addon">$</div><input type="text" class="form-control" id="amount" placeholder="Amount"></div></td>
+		<td>
+      <div class="input-group">
+        <span class="input-group-btn" id="prev-day">
+          <button class="btn btn-default" type="button"><i class="fa fa-angle-left"></i></button>
+        </span>
+        <input type='text' class="form-control center" id='datetimepicker' placeholder="Date" value="{{defaultDate}}">
+        <span class="input-group-btn" id="next-day">
+          <button class="btn btn-default" type="button"><i class="fa fa-angle-right"></i></button>
+        </span>
+      </div>
+      
+    </td>
+		<td><input type='text' class="form-control clear" id='store' placeholder="Store"></td>
+		<td><input type='text' class="form-control clear" id='description' placeholder="Description"></td>
+		<td><div class="input-group"><div class="input-group-addon">$</div><input type="number" class="form-control clear" id="amount" placeholder="Amount"></div></td>
 		<td><select class="form-control" id="category"><option>Spending</option><option>Food</option></select></td>
-		<td><button type="button" class="btn btn-success add-expense">Submit</button></td>
+		<td><button type="button" id="add-expense" class="btn btn-success">Submit</button></td>
 	</tr>
 
 </template>
 
-<template name="dateRangeSelect">
+<!-- Taken out for now-->
+<!-- <template name="dateRangeSelect">
       <p class="button-title">Show me transactions: </p>
       <div class="btn-group date-range-buttons" data-toggle="buttons">
         <label class="btn btn-default active thisWeek">
-          <input type="radio" name="options" id="thisWeek" autocomplete="off" checked>Weekly
+          <input type="radio" name="options" id="thisWeek" autocomplete="off">Weekly
         </label>
         <label class="btn btn-default thisMonth">
-          <input type="radio" name="options" id="thisMonth" autocomplete="off">Monthly
+          <input type="radio" name="options" id="thisMonth" autocomplete="off" >Monthly
         </label>
         <label class="btn btn-default allTime">
           <input type="radio" name="options" id="allTime" autocomplete="off">All Time
         </label>
       </div>
-</template>
+</template> -->
 
 <!-- Add this part to a more general controller for all of the expense table -->
-<template name="mobileExpenses">
+<!-- <template name="mobileExpenses">
   {{#if isMobile}}
     <ul class="list-group">
       <li class="list-group-item">Cras justo odio</li>
@@ -93,61 +105,70 @@
       <li class="list-group-item">Vestibulum at eros</li>
     </ul>
   {{/if}}
-</template>
+</template> -->
 
 <template name="budgetSummary">
   <div class="row top-bar">
-    <!-- this will be a template with the date and stuff -->
       <div class="col-md-1 col-md-offset-3 center"><button class="btn btn-default top-bar-button" id="previous"><i class="fa fa-angle-left"></i> Prev {{mode}}</button></div>
     <div class="col-md-4"><h1 class="title">Drew's Expenses For:</h1><h4 class="title">{{periodStart}} - {{periodEnd}}</h4></div>
-      <div class="col-md-1 center"><button class="btn btn-default top-bar-button" id="next">Next {{mode}}<i class="fa fa-angle-right"></i></button></div>
-      <div class="col-md-3 center">{{> dateRangeSelect}}</div>
+      <div class="col-md-1 center"><button class="btn btn-default top-bar-button" id="next">Next {{mode}} <i class="fa fa-angle-right"></i></button></div>
+      <div class="col-md-3 center"></div>
   </div>
 
   <div class="row">
-    <div class="col-sm-4">
-      <div class="summary-box">
+    <div class="col-sm-6">
+      <div class="summary-box active thisWeek" id="weekBox">
         <div class="summary-box-top">
           <div class="summary-box-title">Weekly Expenses For:</div>
           <div class="summary-box-subtitle">{{thisWeekStart}} - {{thisWeekEnd}}</div>
         </div>
         <div class="summary-box-content">
           <canvas id="weekChart" class="chart" width="100%" height="100%"></canvas>
-          <p>Spending: ${{weekSpending}}</p>
-          <p>Food: ${{weekFood}}</p>
-          
+						{{#each weeklyTotals}}
+							{{> total}}
+						{{/each}}
+            <!-- Overbudget notification -->
+            {{#if weekOverBudget}}
+              <p class="warning-notificaiton">Overbudget by ${{weekOverBudget}}</p>
+            {{/if}}
         </div>
       </div>
     </div>
 
-    <div class="col-sm-4">
-      <div class="summary-box">
+    <div class="col-sm-6">
+      <div class="summary-box thisMonth" id="monthBox">
         <div class="summary-box-top">
           <div class="summary-box-title">Monthly Expenses For:</div>
           <div class="summary-box-subtitle">{{thisMonthStart}} - {{thisMonthEnd}}</div>
         </div>
         <div class="summary-box-content">
           <canvas id="monthChart" class="chart" width="100%" height="100%"></canvas>
-          <p>Spending: ${{monthSpending}}</p>
-          <p>Food: ${{monthFood}}</p>
+						{{#each monthlyTotals}}
+							{{> total}}
+						{{/each}}
+            <!-- Overbudget notification -->
+            {{#if monthOverBudget}}
+              <p class="warning-notificaiton">Overbudget by ${{monthOverBudget}}</p>
+            {{/if}}
+
         </div>
       </div>
     </div>
 
-    <div class="col-sm-4">
-      <div class="summary-box">
+<!--     <div class="col-sm-4">
+      <div class="summary-box" id="allTimeBox">
         <div class="summary-box-top"><div class="summary-box-title">All-Time Spending</div></div>
         <div class="summary-box-content">
-          <p>Spending: {{allTimeSpending}}</p>
-          <p>Food: {{allTimeFood}}</p>
+      
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
-  
-  
 </template>
   
+<template name="total">
+	<p>{{name}}: ${{amount}}</p>
+</template>
 
 
 
