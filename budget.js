@@ -3,7 +3,7 @@ Expenses = new Mongo.Collection("expenses");
 var weekTotal = [0.00, 0.00];
 var monthTotal = [0.00, 0.00];
 var allTimeTotal = [0.00, 0.00];
-var thisWeekStart = Date.today().sunday(); //Should be one day before we want the dates to display
+var thisWeekStart = Date.today().sunday().addDays(-7); 
 var thisWeekEnd = Date.today().saturday();
 var thisMonthStart = Date.today().moveToFirstDayOfMonth();
 var thisMonthEnd = Date.today().moveToLastDayOfMonth(); 
@@ -24,7 +24,7 @@ var remainingColor = "#B4B4B4";
 
 //Budget Values
 var weekBudgetSpending = 50.00;
-var weekBudgetFood = 100.00;
+var weekBudgetFood = 75.00;
 var monthBudgetSpending = (weekBudgetSpending / 7) * Date.getDaysInMonth(thisMonthStart.getYear(),thisMonthStart.getMonth()); // TODO: make this according to current month
 var monthBudgetFood = (weekBudgetFood / 7) * Date.getDaysInMonth(thisMonthStart.getYear(),thisMonthStart.getMonth());
 
@@ -56,11 +56,21 @@ var chartData = [
 
 var chartOptions = {
   responsive: true, 
-  showToolTip: false,
+  // tooltipTemplate: "<%= value %>",
+
+
+  showTooltips: true
 };
 
 
 if (Meteor.isClient) {
+  
+  Template.expensesGroup.helpers({
+    expenses: function () {
+      return Session.get("expenses");
+    }
+  });
+
   
   //-------------------------------------//
   //              Renderers              //
@@ -83,9 +93,9 @@ if (Meteor.isClient) {
     ctx2 = document.getElementById("monthChart").getContext("2d");
     monthChart = new Chart(ctx2).Doughnut(chartData, chartOptions);
 
-    getExpenses(thisMonthStart, thisMonthEnd, "month") // Get the expenses for the month and plot that chart.
     getExpenses(thisPeriodStart, thisPeriodEnd) //get the expenses and update the graphs anytime the page is loaded.
-	}
+    getExpenses(thisMonthStart, thisMonthEnd, "month") // Get the expenses for the month and plot that chart.
+  }
 
   //Initialize the Datepicker
   Template.expenseInput.rendered = function() {
@@ -97,11 +107,6 @@ if (Meteor.isClient) {
   //              Helpers                //
   //-------------------------------------//
   
-  Template.expensesGroup.helpers({
-    expenses: function () {
-      return Session.get("expenses");
-    }
-  });
 
   Template.budgetSummary.helpers({
 		weekSpending: function () {
@@ -251,8 +256,6 @@ if (Meteor.isClient) {
   //              Functions              //
   //-------------------------------------//
 
-
-  //TODO, this can be refacotred becasue we know the mode and have all expenses from that mode.
   var updateCharts = function (expenses, mode) {
     total = Array.apply(null, new Array(budgetCategories.length)).map(Number.prototype.valueOf,0);
 
@@ -283,7 +286,7 @@ if (Meteor.isClient) {
       } else {
         weekChart.segments[0].value = total[0];
         weekChart.segments[1].value = total[1];
-        weekChart.segments[2].value = weekBudgetSpending + weekBudgetFood - total[0] - total[1];
+        weekChart.segments[2].value = parseFloat((weekBudgetSpending + weekBudgetFood - total[0] - total[1]).toFixed(2));
       }
       
       weekChart.update();
@@ -301,7 +304,7 @@ if (Meteor.isClient) {
       } else {
         monthChart.segments[0].value = total[0];
         monthChart.segments[1].value = total[1];
-        monthChart.segments[2].value = monthBudgetSpending + monthBudgetFood - total[0] - total[1];
+        monthChart.segments[2].value = parseFloat((monthBudgetSpending + monthBudgetFood - total[0] - total[1]).toFixed(2));
       }
       
       monthChart.update();
@@ -379,6 +382,8 @@ if (Meteor.isClient) {
     var expenses = [];
     var formattedExpenses = [];
 
+console.log("getting Expenses");
+
 
     
     if(mode == "week") {
@@ -387,12 +392,16 @@ if (Meteor.isClient) {
       updateCharts(monthExpenses, "month");
 
       expenses = Expenses.find({ date: { $gte:thisWeekStart, $lte:thisWeekEnd } }, {sort: {date: -1}});
+console.log("week", expenses);
     } else {
       // Update the week chart
       var weekExpenses = Expenses.find({ date: { $gte:thisWeekStart, $lte:thisWeekEnd } }, {sort: {date: -1}});
       updateCharts(weekExpenses, "week");
 
       expenses = Expenses.find({ date: { $gte:thisMonthStart, $lte:thisMonthEnd } }, {sort: {date: -1}});
+
+console.log("month", expenses);
+
     }
 
     //Format the dates nicely.
@@ -400,6 +409,7 @@ if (Meteor.isClient) {
       expense.date = expense.date.toString("ddd MMM dd yyyy");
       formattedExpenses.push(expense);
     });
+console.log("formatted expenses", formattedExpenses);
     // Set the expenses
     Session.set("expenses", formattedExpenses);
     // Update the graphs
